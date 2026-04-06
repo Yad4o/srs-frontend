@@ -32,12 +32,10 @@ export default function MyTickets() {
           description="View and manage your support requests"
           action={
             <Link href="/tickets/new">
-              <a>
-                <Button>
-                  <Plus className="w-4 h-4 mr-2" />
-                  New Ticket
-                </Button>
-              </a>
+              <Button>
+                <Plus className="w-4 h-4 mr-2" />
+                New Ticket
+              </Button>
             </Link>
           }
         />
@@ -72,9 +70,7 @@ export default function MyTickets() {
             <div className="text-center py-12">
               <p className="text-text-secondary mb-4">No tickets yet</p>
               <Link href="/tickets/new">
-                <a>
-                  <Button>Submit Your First Ticket</Button>
-                </a>
+                <Button>Submit Your First Ticket</Button>
               </Link>
             </div>
           ) : (

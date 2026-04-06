@@ -35,18 +35,18 @@ export function Sidebar() {
         {visibleItems.map((item) => {
           const Icon = item.icon
           return (
-            <Link key={item.path} href={item.path}>
-              <a
-                className={cn(
-                  'flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors',
-                  isActive(item.path)
-                    ? 'bg-accent-blue text-bg-base'
-                    : 'text-text-secondary hover:bg-bg-raised hover:text-text-primary'
-                )}
-              >
-                <Icon className="w-5 h-5" />
-                <span className="text-sm font-medium">{item.label}</span>
-              </a>
+            <Link 
+              key={item.path} 
+              href={item.path}
+              className={cn(
+                'flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors',
+                isActive(item.path)
+                  ? 'bg-accent-blue text-bg-base'
+                  : 'text-text-secondary hover:bg-bg-raised hover:text-text-primary'
+              )}
+            >
+              <Icon className="w-5 h-5" />
+              <span className="text-sm font-medium">{item.label}</span>
             </Link>
           )
         })}
@@ -57,7 +57,7 @@ export function Sidebar() {
         {user && (
           <div className="px-4 py-2 bg-bg-raised rounded-lg">
             <p className="text-xs text-text-muted">Logged in as</p>
-            <p className="text-sm text-text-primary truncate font-medium">{user.email}</p>
+            <p className="text-sm text-text-primary truncate font-medium">{user.email || 'User'}</p>
             <p className="text-xs text-accent-green mt-1 capitalize">{user.role}</p>
           </div>
         )}
