@@ -23,15 +23,11 @@ export default function Landing() {
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <h1 className="text-xl font-bold">SRS Support</h1>
           <div className="flex gap-4">
-            <Link href="/login">
-              <a className="px-4 py-2 text-text-secondary hover:text-text-primary transition-colors">
-                Sign In
-              </a>
+            <Link href="/login" className="px-4 py-2 text-text-secondary hover:text-text-primary transition-colors">
+              Sign In
             </Link>
             <Link href="/register">
-              <a>
-                <Button>Get Started</Button>
-              </a>
+              <Button>Get Started</Button>
             </Link>
           </div>
         </div>
@@ -48,12 +44,10 @@ export default function Landing() {
           </p>
           <div className="flex gap-4 justify-center">
             <Link href="/register">
-              <a>
-                <Button size="lg">
-                  Get Started
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </a>
+              <Button size="lg">
+                Get Started
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
             </Link>
             <button className="px-6 py-3 border border-bg-border rounded-lg hover:bg-bg-surface transition-colors">
               View Demo
@@ -153,12 +147,10 @@ export default function Landing() {
             Join teams using SRS to automate their support operations and improve response times.
           </p>
           <Link href="/register">
-            <a>
-              <Button size="lg">
-                Get Started Free
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            </a>
+            <Button size="lg">
+              Get Started Free
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
           </Link>
         </div>
       </section>
