@@ -160,7 +160,7 @@ export default defineConfig({
     },
   },
   // Add base path for GitHub Pages
-  base: process.env.NODE_ENV === 'production' ? '/srs-frontend/' : '/',
+  base: process.env.NODE_ENV === 'production' ? './' : '/',
   envDir: path.resolve(import.meta.dirname),
   root: path.resolve(import.meta.dirname, "client"),
   build: {
