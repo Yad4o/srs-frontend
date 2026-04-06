@@ -18,9 +18,9 @@ export const useAuth = () => {
         // Decode JWT to get user info (basic parsing)
         const decoded = JSON.parse(atob(token.split('.')[1]))
         const user = {
-          id: decoded.sub,
-          email: decoded.email,
-          role: decoded.role,
+          id: decoded.sub || '',
+          email: decoded.email || '',
+          role: decoded.role || 'user',
         }
 
         setAuth(user, token)
@@ -36,9 +36,9 @@ export const useAuth = () => {
   )
 
   const register = useCallback(
-    async (email: string, password: string) => {
+    async (email: string, password: string, role?: string) => {
       try {
-        const response = await authApi.register(email, password)
+        const response = await authApi.register(email, password, role)
         return { success: true, user: response.data }
       } catch (error: any) {
         return {
