@@ -161,6 +161,8 @@ export default defineConfig({
       "@assets": path.resolve(import.meta.dirname, "attached_assets"),
     },
   },
+  // Add base path for GitHub Pages
+  base: process.env.NODE_ENV === 'production' ? '/srs-frontend/' : '/',
   envDir: path.resolve(import.meta.dirname),
   root: path.resolve(import.meta.dirname, "client"),
   build: {
