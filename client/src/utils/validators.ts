@@ -18,6 +18,7 @@ export const registerSchema = z.object({
     .regex(/[a-z]/, 'Password must contain a lowercase letter')
     .regex(/[0-9]/, 'Password must contain a number')
     .regex(/[!@#$%^&*]/, 'Password must contain a special character (!@#$%^&*)'),
+  role: z.enum(['user', 'agent', 'admin']).default('user'),
 })
 
 export const ticketSchema = z.object({

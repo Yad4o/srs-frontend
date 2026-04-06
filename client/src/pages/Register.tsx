@@ -11,7 +11,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { toast } from 'sonner'
-import { Check, X } from 'lucide-react'
+import { Check, X, User, HeadphonesIcon, Crown } from 'lucide-react'
 
 export default function Register() {
   const [, navigate] = useLocation()
@@ -19,6 +19,40 @@ export default function Register() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [password, setPassword] = useState('')
+  const [selectedRole, setSelectedRole] = useState<'user' | 'agent' | 'admin'>('user')
+
+  const roleOptions = [
+    {
+      value: 'user' as const,
+      title: 'Customer',
+      description: 'I need help with my support tickets',
+      icon: User,
+      borderColor: 'border-blue-500',
+      bgColor: 'bg-blue-500/10',
+      iconBg: 'bg-blue-500',
+      titleColor: 'text-blue-400',
+    },
+    {
+      value: 'agent' as const,
+      title: 'Support Agent',
+      description: 'I help customers resolve their issues',
+      icon: HeadphonesIcon,
+      borderColor: 'border-green-500',
+      bgColor: 'bg-green-500/10',
+      iconBg: 'bg-green-500',
+      titleColor: 'text-green-400',
+    },
+    {
+      value: 'admin' as const,
+      title: 'Administrator',
+      description: 'I manage the entire support system',
+      icon: Crown,
+      borderColor: 'border-purple-500',
+      bgColor: 'bg-purple-500/10',
+      iconBg: 'bg-purple-500',
+      titleColor: 'text-purple-400',
+    },
+  ]
 
   const {
     register,
@@ -43,7 +77,7 @@ export default function Register() {
     setIsLoading(true)
     setError('')
 
-    const result = await registerUser(data.email, data.password)
+    const result = await registerUser(data.email, data.password, selectedRole)
 
     if (result.success) {
       toast.success('Account created successfully')
@@ -97,6 +131,50 @@ export default function Register() {
             {errors.password && <p className="text-red-400 text-xs mt-1">{errors.password.message}</p>}
           </div>
 
+          {/* Role Selection */}
+          <div>
+            <label className="block text-sm font-medium text-text-primary mb-3">Account Type</label>
+            <div className="space-y-2">
+              {roleOptions.map((role) => {
+                const Icon = role.icon
+                const isSelected = selectedRole === role.value
+                return (
+                  <div
+                    key={role.value}
+                    onClick={() => setSelectedRole(role.value)}
+                    className={`
+                      relative flex items-center p-3 rounded-lg border-2 cursor-pointer transition-all
+                      ${isSelected 
+                        ? `${role.borderColor} ${role.bgColor}` 
+                        : 'border-bg-border hover:border-bg-border/80'
+                      }
+                    `}
+                  >
+                    <div className={`
+                      flex items-center justify-center w-10 h-10 rounded-full mr-3
+                      ${isSelected ? `${role.iconBg} text-white` : 'bg-bg-raised text-text-muted'}
+                    `}>
+                      <Icon className="w-5 h-5" />
+                    </div>
+                    <div className="flex-1">
+                      <h4 className={`font-medium ${isSelected ? role.titleColor : 'text-text-primary'}`}>
+                        {role.title}
+                      </h4>
+                      <p className="text-sm text-text-secondary">{role.description}</p>
+                    </div>
+                    {isSelected && (
+                      <div className={`w-5 h-5 rounded-full ${role.iconBg} flex items-center justify-center`}>
+                        <Check className="w-3 h-3 text-white" />
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+            <input type="hidden" {...register('role')} value={selectedRole} />
+            {errors.role && <p className="text-red-400 text-xs mt-1">{errors.role.message}</p>}
+          </div>
+
           {/* Password Requirements */}
           <div className="space-y-2 p-3 bg-bg-raised rounded border border-bg-border">
             <p className="text-xs font-medium text-text-secondary mb-2">Password Requirements:</p>
@@ -124,8 +202,8 @@ export default function Register() {
         {/* Footer */}
         <p className="text-center text-text-secondary text-sm mt-6">
           Already have an account?{' '}
-          <Link href="/login">
-            <a className="text-accent-blue hover:underline">Sign in</a>
+          <Link href="/login" className="text-accent-blue hover:underline">
+            Sign in
           </Link>
         </p>
       </div>
