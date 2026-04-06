@@ -1,4 +1,3 @@
-import tailwindcss from "tailwindcss/postcss";
 import react from "@vitejs/plugin-react";
 import fs from "node:fs";
 import path from "node:path";
@@ -149,7 +148,7 @@ function vitePluginManusDebugCollector(): Plugin {
   };
 }
 
-const plugins: any[] = [react(), tailwindcss(), vitePluginManusRuntime(), vitePluginManusDebugCollector()];
+const plugins: any[] = [react(), vitePluginManusRuntime(), vitePluginManusDebugCollector()];
 
 export default defineConfig({
   plugins,
