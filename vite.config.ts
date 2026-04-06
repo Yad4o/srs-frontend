@@ -148,7 +148,11 @@ function vitePluginManusDebugCollector(): Plugin {
   };
 }
 
-const plugins: any[] = [react(), vitePluginManusRuntime(), vitePluginManusDebugCollector()];
+const plugins: any[] = [
+  react(),
+  process.env.NODE_ENV !== 'production' && vitePluginManusRuntime(),
+  process.env.NODE_ENV !== 'production' && vitePluginManusDebugCollector(),
+].filter(Boolean);
 
 export default defineConfig({
   plugins,
