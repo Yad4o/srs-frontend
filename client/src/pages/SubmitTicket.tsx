@@ -54,9 +54,10 @@ export default function SubmitTicket() {
         setStage('result')
         toast.success('Ticket submitted successfully')
       },
-      onError: () => {
+      onError: (error: any) => {
         setStage('form')
-        toast.error('Failed to submit ticket')
+        const message = error.response?.data?.error?.message || error.response?.data?.detail || 'Failed to submit ticket'
+        toast.error(message)
       },
     })
   }

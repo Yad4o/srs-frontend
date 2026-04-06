@@ -25,9 +25,13 @@ client.interceptors.response.use(
   (res) => res,
   (error) => {
     if (error.response?.status === 401) {
-      // Unauthorized - clear auth and redirect to login
+      // Unauthorized - clear auth 
       useAuthStore.getState().logout()
-      window.location.href = '/login'
+      
+      // Only redirect if not already on login page to avoid refresh loop
+      if (window.location.pathname !== '/login') {
+        window.location.href = '/login'
+      }
     }
     return Promise.reject(error)
   }
