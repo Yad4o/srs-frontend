@@ -60,6 +60,28 @@ export const useAuth = () => {
         const response = await authApi.forgotPassword(email)
         return { success: true, data: response.data }
       } catch (error: any) {
+        // Check if this might be a cold start issue (timeout or network error)
+        const isColdStartError = 
+          error.code === 'ECONNABORTED' || // Timeout
+          error.code === 'NETWORK_ERROR' || // Network error
+          error.message?.includes('timeout') ||
+          error.message?.includes('Network Error') ||
+          !error.response // No response likely means backend is starting up
+
+        if (isColdStartError) {
+          // Wait 3 seconds and retry once for cold start
+          try {
+            await new Promise(resolve => setTimeout(resolve, 3000))
+            const retryResponse = await authApi.forgotPassword(email)
+            return { success: true, data: retryResponse.data }
+          } catch (retryError: any) {
+            return {
+              success: false,
+              error: retryError.response?.data?.detail || 'Failed to send OTP',
+            }
+          }
+        }
+
         return {
           success: false,
           error: error.response?.data?.detail || 'Failed to send OTP',

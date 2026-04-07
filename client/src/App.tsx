@@ -9,6 +9,7 @@ import { queryClient } from '@/lib/queryClient'
 import { useAuth } from '@/hooks/useAuth'
 import { Toaster } from '@/components/ui/sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
+import client from '@/api/client'
 
 // Pages
 import Landing from '@/pages/Landing'
@@ -103,6 +104,21 @@ function Router() {
 }
 
 export default function App() {
+  // Wake up the backend on app load to prevent cold start issues
+  useEffect(() => {
+    const wakeUpBackend = async () => {
+      try {
+        // Fire and forget health check to wake up Render backend
+        await client.get('/health', { timeout: 5000 })
+      } catch (error) {
+        // Silently ignore errors - this is just a warmup ping
+        console.debug('Backend warmup ping failed (expected during cold start)')
+      }
+    }
+    
+    wakeUpBackend()
+  }, [])
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
