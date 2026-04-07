@@ -89,6 +89,12 @@ export default function Login() {
           >
             {isLoading ? 'Signing in...' : 'Sign In'}
           </Button>
+
+          <div className="text-center">
+            <Link href="/forgot-password" className="text-accent-blue hover:underline text-sm">
+              Forgot your password?
+            </Link>
+          </div>
         </form>
 
         {/* Footer */}

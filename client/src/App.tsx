@@ -14,6 +14,7 @@ import { TooltipProvider } from '@/components/ui/tooltip'
 import Landing from '@/pages/Landing'
 import Login from '@/pages/Login'
 import Register from '@/pages/Register'
+import ForgotPassword from '@/pages/ForgotPassword'
 import Dashboard from '@/pages/Dashboard'
 import SubmitTicket from '@/pages/SubmitTicket'
 import MyTickets from '@/pages/MyTickets'
@@ -47,6 +48,7 @@ function Router() {
       <Route path="/" component={Landing} />
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
+      <Route path="/forgot-password" component={ForgotPassword} />
 
       {/* Protected Routes - All Users */}
       <Route path="/dashboard">
