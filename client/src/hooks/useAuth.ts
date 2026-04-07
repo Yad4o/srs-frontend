@@ -54,6 +54,51 @@ export const useAuth = () => {
     storeLogout()
   }, [storeLogout])
 
+  const forgotPassword = useCallback(
+    async (email: string) => {
+      try {
+        const response = await authApi.forgotPassword(email)
+        return { success: true, data: response.data }
+      } catch (error: any) {
+        return {
+          success: false,
+          error: error.response?.data?.detail || 'Failed to send OTP',
+        }
+      }
+    },
+    []
+  )
+
+  const verifyOTP = useCallback(
+    async (email: string, otp: string) => {
+      try {
+        const response = await authApi.verifyOTP(email, otp)
+        return { success: true, data: response.data }
+      } catch (error: any) {
+        return {
+          success: false,
+          error: error.response?.data?.detail || 'Invalid OTP',
+        }
+      }
+    },
+    []
+  )
+
+  const resetPassword = useCallback(
+    async (email: string, otp: string, newPassword: string) => {
+      try {
+        const response = await authApi.resetPassword(email, otp, newPassword)
+        return { success: true, data: response.data }
+      } catch (error: any) {
+        return {
+          success: false,
+          error: error.response?.data?.detail || 'Failed to reset password',
+        }
+      }
+    },
+    []
+  )
+
   return {
     user,
     token,
@@ -62,5 +107,8 @@ export const useAuth = () => {
     login,
     register,
     logout,
+    forgotPassword,
+    verifyOTP,
+    resetPassword,
   }
 }
