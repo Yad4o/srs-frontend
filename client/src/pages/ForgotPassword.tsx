@@ -49,6 +49,7 @@ export default function ForgotPassword() {
   const [error, setError] = useState('')
   const [step, setStep] = useState<'email' | 'otp' | 'reset'>('email')
   const [email, setEmail] = useState('')
+  const [verifiedOTP, setVerifiedOTP] = useState('')
   const [otpVerified, setOtpVerified] = useState(false)
 
   // Forgot password form
@@ -103,6 +104,7 @@ export default function ForgotPassword() {
     const result = await verifyOTP(email, data.otp)
 
     if (result.success) {
+      setVerifiedOTP(data.otp) // Store the verified OTP
       setOtpVerified(true)
       setStep('reset')
       toast.success('OTP verified successfully')
@@ -118,7 +120,7 @@ export default function ForgotPassword() {
     setIsLoading(true)
     setError('')
 
-    const result = await resetPassword(email, '', data.newPassword)
+    const result = await resetPassword(email, verifiedOTP, data.newPassword)
 
     if (result.success) {
       toast.success('Password reset successfully')

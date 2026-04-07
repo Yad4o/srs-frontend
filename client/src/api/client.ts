@@ -8,7 +8,7 @@ import { useAuthStore } from '@/stores/authStore'
 
 const client = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000',
-  timeout: 30000,
+  timeout: 60000, // Increased from 30s to 60s to prevent cancellation
 })
 
 // Request interceptor: Add authorization token
