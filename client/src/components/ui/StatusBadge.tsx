@@ -16,6 +16,11 @@ const statusColors: Record<TicketStatus, { bg: string; dot: string; text: string
     dot: 'bg-blue-400',
     text: 'text-blue-300',
   },
+  in_progress: {
+    bg: 'bg-purple-500/20',
+    dot: 'bg-purple-400',
+    text: 'text-purple-300',
+  },
   auto_resolved: {
     bg: 'bg-green-500/20',
     dot: 'bg-green-400',

@@ -14,6 +14,14 @@ export const useTickets = (status?: TicketStatus) => {
   })
 }
 
+export const useMyAssignments = (status?: TicketStatus) => {
+  return useQuery({
+    queryKey: ['my-assignments', status],
+    queryFn: () => ticketsApi.getMyAssignments(status),
+    select: (data) => data.data.tickets,
+  })
+}
+
 export const useTicket = (id: number) => {
   return useQuery({
     queryKey: ['ticket', id],
@@ -40,6 +48,22 @@ export const useAssignTicket = () => {
     mutationFn: (id: number) => ticketsApi.assignTicket(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tickets'] })
+      queryClient.invalidateQueries({ queryKey: ['my-assignments'] })
+      queryClient.invalidateQueries({ queryKey: ['admin-tickets'] })
+    },
+  })
+}
+
+export const useAcceptTicket = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (id: number) => ticketsApi.acceptTicket(id),
+    onSuccess: (_, id) => {
+      queryClient.invalidateQueries({ queryKey: ['tickets'] })
+      queryClient.invalidateQueries({ queryKey: ['ticket', id] })
+      queryClient.invalidateQueries({ queryKey: ['my-assignments'] })
+      queryClient.invalidateQueries({ queryKey: ['admin-tickets'] })
     },
   })
 }

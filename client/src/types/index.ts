@@ -17,7 +17,7 @@ export interface AuthToken {
   token_type: string
 }
 
-export type TicketStatus = 'open' | 'auto_resolved' | 'escalated' | 'closed'
+export type TicketStatus = 'open' | 'auto_resolved' | 'escalated' | 'in_progress' | 'closed'
 export type ResponseSource = 'similarity' | 'openai' | 'template' | 'fallback'
 export type IntentCategory =
   | 'login_issue'
