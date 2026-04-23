@@ -11,11 +11,17 @@ export const createTicket = (message: string) =>
 export const listTickets = (status?: TicketStatus) =>
   client.get<TicketList>('/tickets/', { params: status ? { status } : {} })
 
+export const getMyAssignments = (status?: TicketStatus) =>
+  client.get<TicketList>('/tickets/my-assignments', { params: status ? { status } : {} })
+
 export const getTicket = (id: number) =>
   client.get<Ticket>(`/tickets/${id}`)
 
 export const assignTicket = (id: number) =>
   client.post<Ticket>(`/tickets/${id}/assign`)
+
+export const acceptTicket = (id: number) =>
+  client.post<Ticket>(`/tickets/${id}/accept`)
 
 export const closeTicket = (id: number) =>
   client.post<Ticket>(`/tickets/${id}/close`)

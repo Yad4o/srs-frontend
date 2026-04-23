@@ -3,7 +3,7 @@
  */
 
 import { useParams, useLocation } from 'wouter'
-import { useTicket, useAssignTicket, useCloseTicket } from '@/hooks/useTickets'
+import { useTicket, useAssignTicket, useCloseTicket, useAcceptTicket } from '@/hooks/useTickets'
 import { useFeedback } from '@/hooks/useFeedback'
 import { useAuth } from '@/hooks/useAuth'
 import { AppShell } from '@/components/layout/AppShell'
@@ -29,6 +29,7 @@ export default function TicketView() {
   const { user } = useAuth()
   const { mutate: assignTicket } = useAssignTicket()
   const { mutate: closeTicket } = useCloseTicket()
+  const { mutate: acceptTicket } = useAcceptTicket()
 
   if (isLoading) {
     return (
@@ -69,6 +70,17 @@ export default function TicketView() {
       },
       onError: () => {
         toast.error('Failed to close ticket')
+      },
+    })
+  }
+
+  const handleAccept = () => {
+    acceptTicket(ticketId, {
+      onSuccess: () => {
+        toast.success(`Ticket #${ticketId} accepted successfully`)
+      },
+      onError: () => {
+        toast.error('Failed to accept ticket')
       },
     })
   }
@@ -197,6 +209,11 @@ export default function TicketView() {
                 {!ticket.assigned_agent_id && (
                   <Button onClick={handleAssign} className="w-full">
                     Assign to Me
+                  </Button>
+                )}
+                {ticket.assigned_agent_id === user?.id && (
+                  <Button onClick={handleAccept} className="w-full">
+                    Accept Ticket
                   </Button>
                 )}
                 <Button onClick={handleClose} variant="outline" className="w-full">

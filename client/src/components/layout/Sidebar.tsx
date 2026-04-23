@@ -5,7 +5,7 @@
 import { Link, useLocation } from 'wouter'
 import { useAuth } from '@/hooks/useAuth'
 import { cn } from '@/lib/utils'
-import { LogOut, Home, Ticket, Users, BarChart3 } from 'lucide-react'
+import { LogOut, Home, Ticket, Users, BarChart3, Settings, UserPlus } from 'lucide-react'
 
 export function Sidebar() {
   const { user, logout } = useAuth()
@@ -18,6 +18,8 @@ export function Sidebar() {
     { path: '/tickets', label: 'My Tickets', icon: Ticket, roles: ['user'] },
     { path: '/queue', label: 'Queue', icon: Users, roles: ['agent', 'admin'] },
     { path: '/admin', label: 'Metrics', icon: BarChart3, roles: ['admin'] },
+    { path: '/admin/escalations', label: 'Escalations', icon: UserPlus, roles: ['admin'] },
+    { path: '/settings', label: 'Settings', icon: Settings, roles: ['user', 'agent', 'admin'] },
   ]
 
   const visibleItems = navItems.filter((item) => item.roles.includes(user?.role || 'user'))

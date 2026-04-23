@@ -23,7 +23,9 @@ import TicketView from '@/pages/TicketView'
 import AgentQueue from '@/pages/AgentQueue'
 import AdminDashboard from '@/pages/AdminDashboard'
 import AdminTickets from '@/pages/AdminTickets'
+import AdminEscalations from '@/pages/AdminEscalations'
 import NotFound from '@/pages/NotFound'
+import Settings from '@/pages/Settings'
 
 // Protected Route Component
 function ProtectedRoute({ children, requiredRoles }: { children: React.ReactNode; requiredRoles?: string[] }) {
@@ -94,6 +96,19 @@ function Router() {
       <Route path="/admin/tickets">
         <ProtectedRoute requiredRoles={['admin']}>
           <AdminTickets />
+        </ProtectedRoute>
+      </Route>
+
+      <Route path="/admin/escalations">
+        <ProtectedRoute requiredRoles={['admin']}>
+          <AdminEscalations />
+        </ProtectedRoute>
+      </Route>
+
+      {/* Protected Routes - All Authenticated Users */}
+      <Route path="/settings">
+        <ProtectedRoute requiredRoles={['user', 'agent', 'admin']}>
+          <Settings />
         </ProtectedRoute>
       </Route>
 
