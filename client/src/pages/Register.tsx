@@ -1,6 +1,6 @@
 /**
  * Register Page — SRS
- * Split-panel matching login aesthetic.
+ * Split-panel matching landing aesthetic.
  */
 
 import { useState, useMemo } from 'react'
@@ -12,7 +12,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { Input } from '@/components/ui/input'
 import { toast } from 'sonner'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Check, X, Eye, EyeOff, ArrowRight, User, HeadphonesIcon, Crown } from 'lucide-react'
+import { Check, X, Eye, EyeOff, ArrowRight, ArrowLeft, User, HeadphonesIcon, Crown } from 'lucide-react'
 
 const ROLE_OPTIONS = [
   {
@@ -37,6 +37,19 @@ const ROLE_OPTIONS = [
     color: '#a855f7',
   },
 ]
+
+function R({ children, d = 0, className = '' }: { children: React.ReactNode; d?: number; className?: string }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 18 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: d, ease: [0.22, 1, 0.36, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  )
+}
 
 export default function Register() {
   const [, navigate] = useLocation()
@@ -74,54 +87,72 @@ export default function Register() {
   }
 
   return (
-    <div className="min-h-screen flex" style={{ background: '#0a0e1a', color: '#f1f5f9', fontFamily: "'IBM Plex Sans', system-ui, sans-serif" }}>
+    <div className="min-h-screen flex bg-background text-foreground">
 
-      {/* LEFT PANEL */}
-      <div className="hidden lg:flex flex-col justify-between w-[380px] flex-shrink-0 border-r p-10" style={{ borderColor: '#1f2d45', background: '#0d1117' }}>
-        <Link href="/">
-          <span className="text-sm font-bold cursor-pointer hover:opacity-70 transition-opacity">← SRS</span>
-        </Link>
+      {/* LEFT PANEL — image + role picker */}
+      <div className="hidden lg:flex relative flex-col justify-between w-[44%] flex-shrink-0 overflow-hidden border-r border-border">
+        <img
+          src="/images/bridge.png"
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover opacity-70"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/75 to-background/40" />
+        <div className="absolute top-40 right-1/4 w-72 h-72 rounded-full pointer-events-none bg-purple-500 blur-[120px] opacity-10" />
 
-        <div>
-          <p className="text-xs uppercase tracking-widest mb-5" style={{ color: '#475569' }}>Three roles. One system.</p>
-          <div className="space-y-4">
-            {ROLE_OPTIONS.map(r => {
+        <div className="relative z-10 p-10">
+          <Link href="/">
+            <span className="inline-flex items-center gap-2 text-sm font-medium cursor-pointer text-white/80 hover:text-white transition-colors">
+              <ArrowLeft className="w-3.5 h-3.5" /> Back to site
+            </span>
+          </Link>
+        </div>
+
+        <div className="relative z-10 p-10">
+          <R>
+            <p className="text-xs uppercase tracking-widest mb-5 text-white/50 font-mono">Three roles. One system.</p>
+          </R>
+          <div className="space-y-3">
+            {ROLE_OPTIONS.map((r, i) => {
               const Icon = r.icon
               const active = selectedRole === r.value
               return (
-                <motion.div
-                  key={r.value}
-                  animate={{ borderColor: active ? `${r.color}55` : '#1f2d45', background: active ? `${r.color}0c` : 'transparent' }}
-                  className="flex items-start gap-3 p-4 rounded-xl border cursor-pointer"
-                  onClick={() => setSelectedRole(r.value)}
-                >
-                  <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
-                    style={{ background: active ? `${r.color}22` : '#1a2235', color: active ? r.color : '#475569' }}
+                <R key={r.value} d={0.05 * i}>
+                  <motion.div
+                    animate={{ borderColor: active ? `${r.color}77` : 'rgba(255,255,255,0.12)', background: active ? `${r.color}1a` : 'rgba(255,255,255,0.03)' }}
+                    className="flex items-start gap-3 p-4 rounded-xl border cursor-pointer backdrop-blur-sm"
+                    onClick={() => setSelectedRole(r.value)}
                   >
-                    <Icon className="w-3.5 h-3.5" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-semibold" style={{ color: active ? r.color : '#94a3b8' }}>{r.label}</p>
-                    <p className="text-xs mt-0.5" style={{ color: '#475569' }}>{r.desc}</p>
-                  </div>
-                </motion.div>
+                    <div
+                      className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
+                      style={{ background: active ? `${r.color}33` : 'rgba(255,255,255,0.08)', color: active ? r.color : 'rgba(255,255,255,0.5)' }}
+                    >
+                      <Icon className="w-3.5 h-3.5" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-semibold" style={{ color: active ? r.color : 'rgba(255,255,255,0.8)' }}>{r.label}</p>
+                      <p className="text-xs mt-0.5 text-white/45">{r.desc}</p>
+                    </div>
+                  </motion.div>
+                </R>
               )
             })}
           </div>
         </div>
-
-        <p className="text-xs" style={{ color: '#1f2d45' }}>SRS · Support Resolution System</p>
       </div>
 
       {/* RIGHT PANEL */}
-      <div className="flex-1 flex items-center justify-center px-6 py-12">
-        <div className="w-full max-w-sm">
+      <div className="flex-1 flex items-center justify-center px-6 py-12 relative overflow-hidden">
+        <div className="absolute top-20 left-1/4 w-80 h-80 rounded-full pointer-events-none bg-emerald-500 blur-[140px] opacity-[0.05]" />
 
-          <div className="mb-7">
-            <Link href="/" className="lg:hidden block text-sm mb-6" style={{ color: '#475569' }}>← Back</Link>
-            <p className="text-xs uppercase tracking-widest mb-3" style={{ color: '#475569' }}>New account</p>
-            <h1 className="text-2xl font-bold" style={{ fontFamily: "'DM Serif Display', serif" }}>Create your account</h1>
-          </div>
+        <div className="w-full max-w-sm relative z-10">
+
+          <R>
+            <Link href="/" className="lg:hidden inline-flex items-center gap-2 text-sm mb-6 text-muted-foreground">
+              <ArrowLeft className="w-3.5 h-3.5" /> Back
+            </Link>
+            <p className="text-xs uppercase tracking-widest mb-3 text-muted-foreground font-mono">New account</p>
+            <h1 className="text-3xl font-display mb-7">Create your account</h1>
+          </R>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <AnimatePresence>
@@ -130,61 +161,60 @@ export default function Register() {
                   initial={{ opacity: 0, y: -8 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
-                  className="px-4 py-3 rounded-lg text-xs"
-                  style={{ background: '#ef444418', border: '1px solid #ef444433', color: '#fca5a5' }}
+                  className="px-4 py-3 rounded-lg text-xs bg-destructive/10 border border-destructive/30 text-destructive"
                 >
                   {error}
                 </motion.div>
               )}
             </AnimatePresence>
 
-            <div>
-              <label className="block text-xs font-medium mb-1.5" style={{ color: '#94a3b8' }}>Email</label>
+            <R d={0.05}>
+              <label className="block text-xs font-medium mb-1.5 text-muted-foreground">Email</label>
               <Input
                 type="email"
                 placeholder="you@company.com"
                 {...register('email')}
-                className="w-full text-sm"
-                style={{ background: '#111827', borderColor: '#1f2d45', color: '#f1f5f9' }}
+                className="w-full text-sm h-11"
               />
-              {errors.email && <p className="text-xs mt-1" style={{ color: '#ef4444' }}>{errors.email.message}</p>}
-            </div>
+              {errors.email && <p className="text-xs mt-1 text-destructive">{errors.email.message}</p>}
+            </R>
 
-            <div>
-              <label className="block text-xs font-medium mb-1.5" style={{ color: '#94a3b8' }}>Password</label>
+            <R d={0.1}>
+              <label className="block text-xs font-medium mb-1.5 text-muted-foreground">Password</label>
               <div className="relative">
                 <Input
                   type={showPw ? 'text' : 'password'}
                   placeholder="••••••••"
                   {...register('password', { onChange: e => setPassword(e.target.value) })}
-                  className="w-full text-sm pr-10"
-                  style={{ background: '#111827', borderColor: '#1f2d45', color: '#f1f5f9' }}
+                  className="w-full text-sm h-11 pr-10"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPw(v => !v)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2"
-                  style={{ color: '#475569' }}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                 >
                   {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
-              {errors.password && <p className="text-xs mt-1" style={{ color: '#ef4444' }}>{errors.password.message}</p>}
+              {errors.password && <p className="text-xs mt-1 text-destructive">{errors.password.message}</p>}
 
-              {/* Strength bar */}
               {password.length > 0 && (
                 <div className="mt-2 space-y-1.5">
                   <div className="flex gap-1">
-                    {[0,1,2,3].map(i => (
-                      <div key={i} className="flex-1 h-0.5 rounded-full transition-all duration-300"
-                        style={{ background: i < strength ? (strength <= 1 ? '#ef4444' : strength <= 2 ? '#f59e0b' : '#22c55e') : '#1f2d45' }}
+                    {[0, 1, 2, 3].map(i => (
+                      <div
+                        key={i}
+                        className="flex-1 h-0.5 rounded-full transition-all duration-300"
+                        style={{ background: i < strength ? (strength <= 1 ? '#ef4444' : strength <= 2 ? '#f59e0b' : '#22c55e') : 'var(--border)' }}
                       />
                     ))}
                   </div>
                   <div className="flex flex-wrap gap-x-3 gap-y-1">
                     {requirements.map(r => (
-                      <span key={r.label} className="flex items-center gap-1 text-xs"
-                        style={{ color: r.met ? '#22c55e' : '#475569' }}
+                      <span
+                        key={r.label}
+                        className="flex items-center gap-1 text-xs"
+                        style={{ color: r.met ? '#22c55e' : 'var(--muted-foreground)' }}
                       >
                         {r.met ? <Check className="w-3 h-3" /> : <X className="w-3 h-3" />}
                         {r.label}
@@ -193,11 +223,11 @@ export default function Register() {
                   </div>
                 </div>
               )}
-            </div>
+            </R>
 
             {/* Mobile role picker */}
-            <div className="lg:hidden">
-              <label className="block text-xs font-medium mb-2" style={{ color: '#94a3b8' }}>Account type</label>
+            <R d={0.13} className="lg:hidden">
+              <label className="block text-xs font-medium mb-2 text-muted-foreground">Account type</label>
               <div className="space-y-2">
                 {ROLE_OPTIONS.map(r => {
                   const Icon = r.icon
@@ -208,37 +238,40 @@ export default function Register() {
                       onClick={() => setSelectedRole(r.value)}
                       className="flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition-all"
                       style={{
-                        borderColor: active ? `${r.color}55` : '#1f2d45',
-                        background: active ? `${r.color}0c` : 'transparent'
+                        borderColor: active ? `${r.color}55` : 'var(--border)',
+                        background: active ? `${r.color}0c` : 'transparent',
                       }}
                     >
-                      <Icon className="w-4 h-4 flex-shrink-0" style={{ color: active ? r.color : '#475569' }} />
-                      <span className="text-xs font-medium" style={{ color: active ? r.color : '#94a3b8' }}>{r.label}</span>
+                      <Icon className="w-4 h-4 flex-shrink-0" style={{ color: active ? r.color : 'var(--muted-foreground)' }} />
+                      <span className="text-xs font-medium" style={{ color: active ? r.color : 'var(--foreground)' }}>{r.label}</span>
                     </div>
                   )
                 })}
               </div>
-            </div>
+            </R>
 
             <input type="hidden" {...register('role')} value={selectedRole} />
-            {errors.role && <p className="text-xs" style={{ color: '#ef4444' }}>{errors.role.message}</p>}
+            {errors.role && <p className="text-xs text-destructive">{errors.role.message}</p>}
 
-            <motion.button
-              type="submit"
-              disabled={isLoading}
-              whileHover={{ scale: isLoading ? 1 : 1.02 }}
-              whileTap={{ scale: isLoading ? 1 : 0.98 }}
-              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold transition-opacity"
-              style={{ background: '#f1f5f9', color: '#0a0e1a', opacity: isLoading ? 0.6 : 1 }}
-            >
-              {isLoading ? 'Creating account…' : <><span>Create account</span><ArrowRight className="w-4 h-4" /></>}
-            </motion.button>
+            <R d={0.18}>
+              <motion.button
+                type="submit"
+                disabled={isLoading}
+                whileHover={{ scale: isLoading ? 1 : 1.02 }}
+                whileTap={{ scale: isLoading ? 1 : 0.98 }}
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold transition-opacity bg-foreground text-background disabled:opacity-60"
+              >
+                {isLoading ? 'Creating account…' : <><span>Create account</span><ArrowRight className="w-4 h-4" /></>}
+              </motion.button>
+            </R>
           </form>
 
-          <p className="mt-7 text-xs text-center" style={{ color: '#475569' }}>
-            Already have an account?{' '}
-            <Link href="/login" className="hover:underline" style={{ color: '#94a3b8' }}>Sign in</Link>
-          </p>
+          <R d={0.22}>
+            <p className="mt-7 text-xs text-center text-muted-foreground">
+              Already have an account?{' '}
+              <Link href="/login" className="hover:underline text-foreground/80">Sign in</Link>
+            </p>
+          </R>
         </div>
       </div>
     </div>

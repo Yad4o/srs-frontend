@@ -1,5 +1,6 @@
 /**
- * ForgotPassword Page - Password reset with OTP verification
+ * ForgotPassword Page — SRS
+ * Password reset with OTP verification. Split-panel, landing aesthetic.
  */
 
 import { useState } from 'react'
@@ -8,9 +9,10 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useAuth } from '@/hooks/useAuth'
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { toast } from 'sonner'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ArrowRight, ArrowLeft, Check } from 'lucide-react'
 
 // Schema for forgot password form
 const forgotPasswordSchema = z.object({
@@ -42,6 +44,53 @@ const resetPasswordSchema = z.object({
 
 type ResetPasswordInput = z.infer<typeof resetPasswordSchema>
 
+const STEPS = [
+  { key: 'email', label: 'Email' },
+  { key: 'otp', label: 'Verify' },
+  { key: 'reset', label: 'Reset' },
+] as const
+
+function R({ children, d = 0, className = '' }: { children: React.ReactNode; d?: number; className?: string }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 18 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: d, ease: [0.22, 1, 0.36, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+function StepDots({ step }: { step: 'email' | 'otp' | 'reset' }) {
+  const idx = STEPS.findIndex(s => s.key === step)
+  return (
+    <div className="flex items-center gap-2 mb-8">
+      {STEPS.map((s, i) => {
+        const done = i < idx
+        const active = i === idx
+        return (
+          <div key={s.key} className="flex items-center gap-2">
+            <div
+              className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-mono font-medium transition-colors"
+              style={{
+                background: done ? '#22c55e' : active ? 'var(--foreground)' : 'var(--secondary)',
+                color: done ? '#fff' : active ? 'var(--background)' : 'var(--muted-foreground)',
+              }}
+            >
+              {done ? <Check className="w-3.5 h-3.5" /> : i + 1}
+            </div>
+            {i < STEPS.length - 1 && (
+              <div className="w-8 h-px" style={{ background: done ? '#22c55e' : 'var(--border)' }} />
+            )}
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
 export default function ForgotPassword() {
   const [, navigate] = useLocation()
   const { forgotPassword, verifyOTP, resetPassword } = useAuth()
@@ -50,7 +99,6 @@ export default function ForgotPassword() {
   const [step, setStep] = useState<'email' | 'otp' | 'reset'>('email')
   const [email, setEmail] = useState('')
   const [verifiedOTP, setVerifiedOTP] = useState('')
-  const [otpVerified, setOtpVerified] = useState(false)
 
   // Forgot password form
   const {
@@ -105,7 +153,6 @@ export default function ForgotPassword() {
 
     if (result.success) {
       setVerifiedOTP(data.otp) // Store the verified OTP
-      setOtpVerified(true)
       setStep('reset')
       toast.success('OTP verified successfully')
     } else {
@@ -133,154 +180,201 @@ export default function ForgotPassword() {
     setIsLoading(false)
   }
 
+  const stepCopy: Record<typeof step, { eyebrow: string; title: string }> = {
+    email: { eyebrow: 'Account recovery', title: 'Reset your password' },
+    otp: { eyebrow: 'Verification', title: 'Enter the code' },
+    reset: { eyebrow: 'Almost done', title: 'Set a new password' },
+  }
+
   return (
-    <div className="min-h-screen bg-bg-base flex items-center justify-center px-4">
-      <div className="w-full max-w-md">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-text-primary mb-2">SRS Support</h1>
-          <p className="text-text-secondary">
-            {step === 'email' && 'Reset your password'}
-            {step === 'otp' && 'Enter verification code'}
-            {step === 'reset' && 'Set new password'}
-          </p>
+    <div className="min-h-screen flex bg-background text-foreground">
+
+      {/* LEFT PANEL — image */}
+      <div className="hidden lg:flex relative flex-col justify-between w-[42%] flex-shrink-0 overflow-hidden border-r border-border">
+        <img
+          src="/images/encrypted.jpg"
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover opacity-70"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/75 to-background/40" />
+        <div className="absolute top-1/3 left-1/4 w-72 h-72 rounded-full pointer-events-none bg-amber-500 blur-[120px] opacity-10" />
+
+        <div className="relative z-10 p-10">
+          <Link href="/">
+            <span className="inline-flex items-center gap-2 text-sm font-medium cursor-pointer text-white/80 hover:text-white transition-colors">
+              <ArrowLeft className="w-3.5 h-3.5" /> Back to site
+            </span>
+          </Link>
         </div>
 
-        {/* Progress indicator */}
-        <div className="flex justify-center mb-6">
-          <div className="flex space-x-2">
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-              step === 'email' ? 'bg-accent-blue text-white' : 
-              step === 'otp' || step === 'reset' ? 'bg-green-500 text-white' : 'bg-gray-300 text-gray-600'
-            }`}>
-              1
-            </div>
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-              step === 'otp' ? 'bg-accent-blue text-white' : 
-              step === 'reset' ? 'bg-green-500 text-white' : 'bg-gray-300 text-gray-600'
-            }`}>
-              2
-            </div>
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-              step === 'reset' ? 'bg-accent-blue text-white' : 'bg-gray-300 text-gray-600'
-            }`}>
-              3
-            </div>
-          </div>
+        <div className="relative z-10 p-10">
+          <R>
+            <p className="text-xs uppercase tracking-widest mb-5 text-white/50 font-mono">Account recovery</p>
+            <h2 className="text-4xl font-display leading-[1.05] mb-5 text-white">
+              Locked out
+              <br />
+              <span className="italic text-white/60">happens to everyone.</span>
+            </h2>
+            <p className="text-sm leading-relaxed max-w-sm text-white/60">
+              Verify your email, confirm the one-time code, and set a new password — back in within a couple of minutes.
+            </p>
+          </R>
         </div>
+      </div>
 
-        {/* Error message */}
-        {error && (
-          <div className="p-3 bg-red-500/10 border border-red-500/30 rounded text-red-300 text-sm mb-4">
-            {error}
-          </div>
-        )}
+      {/* RIGHT PANEL — multi-step form */}
+      <div className="flex-1 flex items-center justify-center px-6 py-12 relative overflow-hidden">
+        <div className="absolute top-20 right-1/4 w-80 h-80 rounded-full pointer-events-none bg-blue-500 blur-[140px] opacity-[0.06]" />
 
-        {/* Step 1: Email */}
-        {step === 'email' && (
-          <form onSubmit={handleEmailSubmit(onEmailSubmit)} className="space-y-4 bg-bg-surface p-6 rounded-lg border border-bg-border">
-            <div>
-              <label className="block text-sm font-medium text-text-primary mb-2">Email Address</label>
-              <Input
-                type="email"
-                placeholder="you@example.com"
-                {...registerEmail('email')}
-                className="w-full"
-              />
-              {emailErrors.email && <p className="text-red-400 text-xs mt-1">{emailErrors.email.message}</p>}
-            </div>
+        <div className="w-full max-w-sm relative z-10">
 
-            <Button
-              type="submit"
-              disabled={isLoading}
-              className="w-full"
+          <R>
+            <Link href="/" className="lg:hidden inline-flex items-center gap-2 text-sm mb-6 text-muted-foreground">
+              <ArrowLeft className="w-3.5 h-3.5" /> Back
+            </Link>
+            <StepDots step={step} />
+            <p className="text-xs uppercase tracking-widest mb-3 text-muted-foreground font-mono">{stepCopy[step].eyebrow}</p>
+            <h1 className="text-3xl font-display mb-8">{stepCopy[step].title}</h1>
+          </R>
+
+          <AnimatePresence>
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                className="px-4 py-3 rounded-lg text-xs mb-4 bg-destructive/10 border border-destructive/30 text-destructive"
+              >
+                {error}
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Step 1: Email */}
+          {step === 'email' && (
+            <motion.form
+              key="email-step"
+              initial={{ opacity: 0, x: 12 }}
+              animate={{ opacity: 1, x: 0 }}
+              onSubmit={handleEmailSubmit(onEmailSubmit)}
+              className="space-y-4"
             >
-              {isLoading ? 'Sending OTP...' : 'Send OTP'}
-            </Button>
-          </form>
-        )}
+              <div>
+                <label className="block text-xs font-medium mb-1.5 text-muted-foreground">Email address</label>
+                <Input
+                  type="email"
+                  placeholder="you@company.com"
+                  {...registerEmail('email')}
+                  className="w-full text-sm h-11"
+                />
+                {emailErrors.email && <p className="text-xs mt-1 text-destructive">{emailErrors.email.message}</p>}
+              </div>
 
-        {/* Step 2: OTP Verification */}
-        {step === 'otp' && (
-          <form onSubmit={handleOtpSubmit(onOTPSubmit)} className="space-y-4 bg-bg-surface p-6 rounded-lg border border-bg-border">
-            <div>
-              <label className="block text-sm font-medium text-text-primary mb-2">Enter 6-digit OTP</label>
-              <Input
-                type="text"
-                placeholder="123456"
-                maxLength={6}
-                {...registerOtp('otp')}
-                className="w-full text-center text-2xl tracking-widest"
-              />
-              {otpErrors.otp && <p className="text-red-400 text-xs mt-1">{otpErrors.otp.message}</p>}
-            </div>
+              <motion.button
+                type="submit"
+                disabled={isLoading}
+                whileHover={{ scale: isLoading ? 1 : 1.02 }}
+                whileTap={{ scale: isLoading ? 1 : 0.98 }}
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold transition-opacity bg-foreground text-background disabled:opacity-60"
+              >
+                {isLoading ? 'Sending OTP…' : <><span>Send OTP</span><ArrowRight className="w-4 h-4" /></>}
+              </motion.button>
+            </motion.form>
+          )}
 
-            <div className="text-sm text-text-secondary text-center">
-              OTP sent to {email}
-            </div>
-
-            <Button
-              type="submit"
-              disabled={isLoading}
-              className="w-full"
+          {/* Step 2: OTP Verification */}
+          {step === 'otp' && (
+            <motion.form
+              key="otp-step"
+              initial={{ opacity: 0, x: 12 }}
+              animate={{ opacity: 1, x: 0 }}
+              onSubmit={handleOtpSubmit(onOTPSubmit)}
+              className="space-y-4"
             >
-              {isLoading ? 'Verifying...' : 'Verify OTP'}
-            </Button>
+              <div>
+                <label className="block text-xs font-medium mb-1.5 text-muted-foreground">6-digit code</label>
+                <Input
+                  type="text"
+                  placeholder="123456"
+                  maxLength={6}
+                  {...registerOtp('otp')}
+                  className="w-full text-center text-2xl tracking-[0.5em] h-14 font-mono"
+                />
+                {otpErrors.otp && <p className="text-xs mt-1 text-destructive">{otpErrors.otp.message}</p>}
+              </div>
 
-            <div className="text-center">
+              <p className="text-xs text-center text-muted-foreground">
+                Sent to <span className="text-foreground/80">{email}</span>
+              </p>
+
+              <motion.button
+                type="submit"
+                disabled={isLoading}
+                whileHover={{ scale: isLoading ? 1 : 1.02 }}
+                whileTap={{ scale: isLoading ? 1 : 0.98 }}
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold transition-opacity bg-foreground text-background disabled:opacity-60"
+              >
+                {isLoading ? 'Verifying…' : <><span>Verify code</span><ArrowRight className="w-4 h-4" /></>}
+              </motion.button>
+
               <button
                 type="button"
                 onClick={() => setStep('email')}
-                className="text-accent-blue hover:underline text-sm"
+                className="w-full text-center text-xs hover:underline text-muted-foreground"
               >
                 Back to email
               </button>
-            </div>
-          </form>
-        )}
+            </motion.form>
+          )}
 
-        {/* Step 3: Reset Password */}
-        {step === 'reset' && (
-          <form onSubmit={handleResetSubmit(onResetSubmit)} className="space-y-4 bg-bg-surface p-6 rounded-lg border border-bg-border">
-            <div>
-              <label className="block text-sm font-medium text-text-primary mb-2">New Password</label>
-              <Input
-                type="password"
-                placeholder="Enter new password"
-                {...registerReset('newPassword')}
-                className="w-full"
-              />
-              {resetErrors.newPassword && <p className="text-red-400 text-xs mt-1">{resetErrors.newPassword.message}</p>}
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-text-primary mb-2">Confirm Password</label>
-              <Input
-                type="password"
-                placeholder="Confirm new password"
-                {...registerReset('confirmPassword')}
-                className="w-full"
-              />
-              {resetErrors.confirmPassword && <p className="text-red-400 text-xs mt-1">{resetErrors.confirmPassword.message}</p>}
-            </div>
-
-            <Button
-              type="submit"
-              disabled={isLoading}
-              className="w-full"
+          {/* Step 3: Reset Password */}
+          {step === 'reset' && (
+            <motion.form
+              key="reset-step"
+              initial={{ opacity: 0, x: 12 }}
+              animate={{ opacity: 1, x: 0 }}
+              onSubmit={handleResetSubmit(onResetSubmit)}
+              className="space-y-4"
             >
-              {isLoading ? 'Resetting...' : 'Reset Password'}
-            </Button>
-          </form>
-        )}
+              <div>
+                <label className="block text-xs font-medium mb-1.5 text-muted-foreground">New password</label>
+                <Input
+                  type="password"
+                  placeholder="••••••••"
+                  {...registerReset('newPassword')}
+                  className="w-full text-sm h-11"
+                />
+                {resetErrors.newPassword && <p className="text-xs mt-1 text-destructive">{resetErrors.newPassword.message}</p>}
+              </div>
 
-        {/* Footer */}
-        <p className="text-center text-text-secondary text-sm mt-6">
-          Remember your password?{' '}
-          <Link href="/login" className="text-accent-blue hover:underline">
-            Sign in
-          </Link>
-        </p>
+              <div>
+                <label className="block text-xs font-medium mb-1.5 text-muted-foreground">Confirm password</label>
+                <Input
+                  type="password"
+                  placeholder="••••••••"
+                  {...registerReset('confirmPassword')}
+                  className="w-full text-sm h-11"
+                />
+                {resetErrors.confirmPassword && <p className="text-xs mt-1 text-destructive">{resetErrors.confirmPassword.message}</p>}
+              </div>
+
+              <motion.button
+                type="submit"
+                disabled={isLoading}
+                whileHover={{ scale: isLoading ? 1 : 1.02 }}
+                whileTap={{ scale: isLoading ? 1 : 0.98 }}
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold transition-opacity bg-foreground text-background disabled:opacity-60"
+              >
+                {isLoading ? 'Resetting…' : <><span>Reset password</span><ArrowRight className="w-4 h-4" /></>}
+              </motion.button>
+            </motion.form>
+          )}
+
+          <p className="mt-7 text-xs text-center text-muted-foreground">
+            Remember your password?{' '}
+            <Link href="/login" className="hover:underline text-foreground/80">Sign in</Link>
+          </p>
+        </div>
       </div>
     </div>
   )
