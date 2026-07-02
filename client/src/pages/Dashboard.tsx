@@ -78,6 +78,11 @@ export default function Dashboard() {
                 <h3 className="font-semibold text-text-primary mb-1">All Tickets</h3>
                 <p className="text-sm text-text-secondary">Browse entire ticket database</p>
               </Link>
+              <Link href="/admin/escalations" className="p-6 bg-bg-surface border border-bg-border rounded-lg hover:border-accent-amber transition-colors">
+                <div className="text-accent-amber text-2xl mb-2">🚨</div>
+                <h3 className="font-semibold text-text-primary mb-1">Escalations</h3>
+                <p className="text-sm text-text-secondary">Assign escalated tickets to agents</p>
+              </Link>
             </>
           )}
         </div>

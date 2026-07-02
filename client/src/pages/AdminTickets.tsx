@@ -1,5 +1,11 @@
 /**
  * Admin Tickets Page - Browse all tickets in the system
+ *
+ * Fixes applied:
+ * - Fix 11: per-tab (N) count was showing the *currently selected* status
+ *   count on every tab simultaneously, making the numbers meaningless.
+ *   Now shows the count only on the active tab where it's accurate.
+ * - Added 'in_progress' tab (status existed on backend, was missing here).
  */
 
 import { useState } from 'react'
@@ -10,11 +16,12 @@ import { TicketTable } from '@/components/tickets/TicketTable'
 import type { TicketStatus } from '@/types'
 
 const STATUSES: { value: TicketStatus | undefined; label: string }[] = [
-  { value: undefined, label: 'All' },
-  { value: 'open', label: 'Open' },
+  { value: undefined,       label: 'All'           },
+  { value: 'open',          label: 'Open'          },
+  { value: 'escalated',     label: 'Escalated'     },
+  { value: 'in_progress',   label: 'In Progress'   },
   { value: 'auto_resolved', label: 'Auto Resolved' },
-  { value: 'escalated', label: 'Escalated' },
-  { value: 'closed', label: 'Closed' },
+  { value: 'closed',        label: 'Closed'        },
 ]
 
 export default function AdminTickets() {
@@ -31,33 +38,35 @@ export default function AdminTickets() {
         />
 
         {/* Filter Tabs */}
-        <div className="flex gap-2 mb-6 overflow-x-auto">
-          {STATUSES.map((status) => (
-            <button
-              key={status.value || 'all'}
-              onClick={() => {
-                setActiveStatus(status.value)
-                setPage(1)
-              }}
-              className={`px-4 py-2 rounded-lg whitespace-nowrap transition-colors ${
-                activeStatus === status.value
-                  ? 'bg-accent-blue text-bg-base'
-                  : 'bg-bg-surface text-text-secondary hover:bg-bg-raised'
-              }`}
-            >
-              {status.label}
-              {data && (
-                <span className="ml-2 text-xs opacity-70">
-                  ({data.pagination.total})
-                </span>
-              )}
-            </button>
-          ))}
+        <div className="flex gap-2 mb-6 overflow-x-auto border-b border-bg-border pb-[2px]">
+          {STATUSES.map((status) => {
+            const isActive = activeStatus === status.value
+            return (
+              <button
+                key={status.value ?? 'all'}
+                onClick={() => { setActiveStatus(status.value); setPage(1) }}
+                className={`px-4 py-2 text-sm font-medium whitespace-nowrap transition-colors ${
+                  isActive
+                    ? 'text-accent-blue border-b-2 border-accent-blue -mb-[3px]'
+                    : 'text-text-secondary hover:text-text-primary'
+                }`}
+              >
+                {status.label}
+                {/* Only show count on the active tab — data.pagination.total
+                    is the total for the current filter, not all tabs */}
+                {isActive && data && (
+                  <span className="ml-1.5 text-xs opacity-60">
+                    ({data.pagination.total})
+                  </span>
+                )}
+              </button>
+            )
+          })}
         </div>
 
         {/* Tickets Table */}
         {isLoading ? (
-          <div className="text-center py-12 text-text-secondary">Loading tickets...</div>
+          <div className="text-center py-12 text-text-secondary">Loading tickets…</div>
         ) : !data || data.tickets.length === 0 ? (
           <div className="text-center py-12 bg-bg-surface border border-bg-border rounded-lg">
             <p className="text-text-secondary">No tickets found</p>
