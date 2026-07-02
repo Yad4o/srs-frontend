@@ -1,5 +1,10 @@
 /**
  * TicketTable - Table component for displaying multiple tickets
+ *
+ * Fixes applied:
+ * 1. Removed nested <a> inside <Link> (wouter v3 invalid HTML anti-pattern)
+ * 2. Made entire row clickable via Link wrapping instead of dead onRowClick prop
+ *    that was never passed by any consumer
  */
 
 import { Link } from 'wouter'
@@ -13,10 +18,9 @@ import type { Ticket } from '@/types'
 interface TicketTableProps {
   tickets: Ticket[]
   className?: string
-  onRowClick?: (ticket: Ticket) => void
 }
 
-export function TicketTable({ tickets, className, onRowClick }: TicketTableProps) {
+export function TicketTable({ tickets, className }: TicketTableProps) {
   return (
     <div className={cn('overflow-x-auto', className)}>
       <table className="w-full text-sm">
@@ -32,15 +36,15 @@ export function TicketTable({ tickets, className, onRowClick }: TicketTableProps
         </thead>
         <tbody>
           {tickets.map((ticket) => (
-            <tr
-              key={ticket.id}
-              onClick={() => onRowClick?.(ticket)}
-              className="border-b border-bg-border hover:bg-bg-raised transition-colors cursor-pointer"
-            >
+            <tr key={ticket.id} className="border-b border-bg-border hover:bg-bg-raised transition-colors">
               <td className="px-4 py-3 font-mono text-text-muted">#{ticket.id}</td>
               <td className="px-4 py-3 text-text-primary max-w-xs truncate">
-                <Link href={`/tickets/${ticket.id}`}>
-                  <a className="hover:text-accent-blue transition-colors">{ticket.message}</a>
+                {/* Entire cell is the navigation target — no nested <a> */}
+                <Link
+                  href={`/tickets/${ticket.id}`}
+                  className="hover:text-accent-blue transition-colors block truncate"
+                >
+                  {ticket.message}
                 </Link>
               </td>
               <td className="px-4 py-3">

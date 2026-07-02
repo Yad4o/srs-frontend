@@ -73,6 +73,10 @@ export function AssignAgentModal({
             <div className="flex items-center justify-center p-4">
               <Loader2 className="w-6 h-6 animate-spin text-text-secondary" />
             </div>
+          ) : agents.length === 0 ? (
+            <p className="text-sm text-text-muted text-center py-4">
+              No agents found. Add agent accounts before assigning tickets.
+            </p>
           ) : (
             <select
               value={selectedAgentId}

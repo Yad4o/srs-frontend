@@ -141,7 +141,7 @@ export default function SubmitTicket() {
             {result.status === 'escalated' && (
               <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-4">
                 <p className="text-amber-300 text-sm">
-                  This ticket has been escalated to our support team. You'll be notified when an agent responds.
+                  This ticket has been escalated to our support team. An agent will review it and reach out to resolve your issue.
                 </p>
               </div>
             )}

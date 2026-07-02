@@ -2,11 +2,12 @@
  * Admin Dashboard Page - System metrics and health overview
  */
 
+import { Link } from 'wouter'
 import { useAdminMetrics } from '@/hooks/useAdminMetrics'
 import { AppShell } from '@/components/layout/AppShell'
 import { PageHeader } from '@/components/layout/PageHeader'
 import { formatPercentage } from '@/utils/formatters'
-import { AlertCircle, TrendingUp, TrendingDown } from 'lucide-react'
+import { AlertCircle, ArrowRight, TrendingUp, TrendingDown } from 'lucide-react'
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 
 export default function AdminDashboard() {
@@ -48,17 +49,21 @@ export default function AdminDashboard() {
           description="System performance and health metrics"
         />
 
-        {/* Unassigned Escalations Alert */}
+        {/* Unassigned Escalations Alert — links directly to the Escalations page */}
         {metrics.tickets.unassigned_escalated > 0 && (
-          <div className="mb-6 p-4 bg-amber-500/10 border border-amber-500/30 rounded-lg flex items-start gap-3 animate-pulse">
-            <AlertCircle className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
-            <div>
-              <p className="text-amber-300 font-medium">
-                ⚠ {metrics.tickets.unassigned_escalated} escalated tickets are unassigned
-              </p>
-              <p className="text-amber-300/70 text-sm">Go to queue to assign them</p>
+          <Link href="/admin/escalations">
+            <div className="mb-6 p-4 bg-amber-500/10 border border-amber-500/30 rounded-lg flex items-center gap-3 hover:bg-amber-500/15 hover:border-amber-500/50 transition-colors cursor-pointer group">
+              <AlertCircle className="w-5 h-5 text-amber-400 flex-shrink-0" />
+              <div className="flex-1">
+                <p className="text-amber-300 font-medium">
+                  {metrics.tickets.unassigned_escalated} unassigned escalated{' '}
+                  {metrics.tickets.unassigned_escalated === 1 ? 'ticket' : 'tickets'} need attention
+                </p>
+                <p className="text-amber-300/70 text-sm">Click to open Escalations queue and assign agents</p>
+              </div>
+              <ArrowRight className="w-4 h-4 text-amber-400 flex-shrink-0 group-hover:translate-x-1 transition-transform" />
             </div>
-          </div>
+          </Link>
         )}
 
         {/* Metrics Grid */}
