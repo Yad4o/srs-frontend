@@ -24,6 +24,7 @@ import AgentQueue from '@/pages/AgentQueue'
 import AdminDashboard from '@/pages/AdminDashboard'
 import AdminTickets from '@/pages/AdminTickets'
 import AdminEscalations from '@/pages/AdminEscalations'
+import AdminUsers from '@/pages/AdminUsers'
 import NotFound from '@/pages/NotFound'
 import Settings from '@/pages/Settings'
 
@@ -102,6 +103,12 @@ function Router() {
       <Route path="/admin/escalations">
         <ProtectedRoute requiredRoles={['admin']}>
           <AdminEscalations />
+        </ProtectedRoute>
+      </Route>
+
+      <Route path="/admin/users">
+        <ProtectedRoute requiredRoles={['admin']}>
+          <AdminUsers />
         </ProtectedRoute>
       </Route>
 

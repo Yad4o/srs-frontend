@@ -5,7 +5,7 @@
 import { Link, useLocation } from 'wouter'
 import { useAuth } from '@/hooks/useAuth'
 import { cn } from '@/lib/utils'
-import { LogOut, Home, Ticket, Users, BarChart3, Settings, UserPlus } from 'lucide-react'
+import { LogOut, Home, Ticket, Users, BarChart3, Settings, UserPlus, ShieldCheck } from 'lucide-react'
 
 export function Sidebar() {
   const { user, logout } = useAuth()
@@ -19,6 +19,7 @@ export function Sidebar() {
     { path: '/queue', label: 'Queue', icon: Users, roles: ['agent', 'admin'] },
     { path: '/admin', label: 'Metrics', icon: BarChart3, roles: ['admin'] },
     { path: '/admin/escalations', label: 'Escalations', icon: UserPlus, roles: ['admin'] },
+    { path: '/admin/users', label: 'Users', icon: ShieldCheck, roles: ['admin'] },
     { path: '/settings', label: 'Settings', icon: Settings, roles: ['user', 'agent', 'admin'] },
   ]
 

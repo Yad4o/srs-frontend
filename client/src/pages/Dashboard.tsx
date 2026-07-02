@@ -83,6 +83,11 @@ export default function Dashboard() {
                 <h3 className="font-semibold text-text-primary mb-1">Escalations</h3>
                 <p className="text-sm text-text-secondary">Assign escalated tickets to agents</p>
               </Link>
+              <Link href="/admin/users" className="p-6 bg-bg-surface border border-bg-border rounded-lg hover:border-accent-purple transition-colors">
+                <div className="text-accent-purple text-2xl mb-2">👥</div>
+                <h3 className="font-semibold text-text-primary mb-1">Users</h3>
+                <p className="text-sm text-text-secondary">Manage accounts and reset passwords</p>
+              </Link>
             </>
           )}
         </div>
