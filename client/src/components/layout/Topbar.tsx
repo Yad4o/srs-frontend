@@ -11,9 +11,9 @@ export function Topbar() {
   const [, navigate] = useLocation()
 
   return (
-    <header className="h-16 bg-bg-surface border-b border-bg-border flex items-center justify-between px-6">
+    <header className="relative z-10 h-16 bg-bg-surface/60 backdrop-blur-xl border-b border-bg-border flex items-center justify-between px-6">
       <div>
-        <h2 className="text-lg font-semibold text-text-primary">
+        <h2 className="text-lg font-display text-text-primary">
           {user?.role === 'admin' ? 'Admin Dashboard' : user?.role === 'agent' ? 'Agent Queue' : 'Support Portal'}
         </h2>
       </div>
