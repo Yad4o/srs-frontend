@@ -26,11 +26,11 @@ export function Sidebar() {
   const visibleItems = navItems.filter((item) => item.roles.includes(user?.role || 'user'))
 
   return (
-    <aside className="w-64 bg-bg-surface border-r border-bg-border flex flex-col">
+    <aside className="relative z-10 w-64 bg-bg-surface/70 backdrop-blur-xl border-r border-bg-border flex flex-col">
       {/* Logo */}
       <div className="p-6 border-b border-bg-border">
-        <h1 className="text-xl font-bold text-text-primary">SRS</h1>
-        <p className="text-xs text-text-secondary mt-1">Support Portal</p>
+        <h1 className="text-xl font-display text-text-primary tracking-tight">SRS</h1>
+        <p className="text-xs text-text-secondary mt-1 font-mono">Support Portal</p>
       </div>
 
       {/* Navigation */}
@@ -44,8 +44,8 @@ export function Sidebar() {
               className={cn(
                 'flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors',
                 isActive(item.path)
-                  ? 'bg-accent-blue text-bg-base'
-                  : 'text-text-secondary hover:bg-bg-raised hover:text-text-primary'
+                  ? 'bg-accent-blue text-bg-base shadow-[0_0_20px_-4px_var(--accent-blue)]'
+                  : 'text-text-secondary hover:bg-bg-raised/80 hover:text-text-primary'
               )}
             >
               <Icon className="w-5 h-5" />

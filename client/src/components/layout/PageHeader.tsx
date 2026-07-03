@@ -16,8 +16,8 @@ export function PageHeader({ title, description, action, className }: PageHeader
   return (
     <div className={cn('flex items-start justify-between mb-8', className)}>
       <div>
-        <h1 className="text-3xl font-bold text-text-primary mb-2">{title}</h1>
-        {description && <p className="text-text-secondary">{description}</p>}
+        <h1 className="text-3xl font-display text-text-primary mb-2 tracking-tight">{title}</h1>
+        {description && <p className="text-text-secondary text-sm">{description}</p>}
       </div>
       {action && <div className="flex-shrink-0">{action}</div>}
     </div>
