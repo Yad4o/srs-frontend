@@ -35,6 +35,7 @@ export default function AdminTickets() {
         <PageHeader
           title="All Tickets"
           description="Browse and manage all tickets in the system"
+          image="/images/audit.jpg"
         />
 
         {/* Filter Tabs */}
@@ -68,12 +69,12 @@ export default function AdminTickets() {
         {isLoading ? (
           <div className="text-center py-12 text-text-secondary">Loading tickets…</div>
         ) : !data || data.tickets.length === 0 ? (
-          <div className="text-center py-12 bg-bg-surface border border-bg-border rounded-lg">
+          <div className="text-center py-12 bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl">
             <p className="text-text-secondary">No tickets found</p>
           </div>
         ) : (
           <>
-            <div className="bg-bg-surface border border-bg-border rounded-lg overflow-hidden mb-6">
+            <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl overflow-hidden mb-6">
               <TicketTable tickets={data.tickets} />
             </div>
 

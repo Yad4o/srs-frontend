@@ -58,6 +58,7 @@ export default function AgentQueue() {
         <PageHeader
           title="My Assignments"
           description="Tickets assigned to you by an admin"
+          image="/images/isolated.jpg"
         />
 
         {/* Tabs */}
@@ -82,13 +83,13 @@ export default function AgentQueue() {
           <div className="text-center py-12 text-text-secondary">Loading tickets…</div>
         ) : isError ? (
           /* Fix 13: clear error state instead of misleading empty-state copy */
-          <div className="text-center py-12 bg-bg-surface border border-bg-border rounded-lg">
+          <div className="text-center py-12 bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl">
             <AlertCircle className="w-12 h-12 text-accent-red mx-auto mb-4 opacity-60" />
             <p className="text-text-secondary mb-2 font-medium">Failed to load assignments</p>
             <p className="text-text-muted text-sm">Check your connection and try refreshing the page.</p>
           </div>
         ) : !tickets || tickets.length === 0 ? (
-          <div className="text-center py-12 bg-bg-surface border border-bg-border rounded-lg">
+          <div className="text-center py-12 bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl">
             {activeTab === 'resolved' ? (
               <CheckCircle className="w-12 h-12 text-accent-green mx-auto mb-4 opacity-50" />
             ) : (
@@ -98,7 +99,7 @@ export default function AgentQueue() {
             <p className="text-text-muted text-sm">{emptyMessages[activeTab].subtitle}</p>
           </div>
         ) : (
-          <div className="bg-bg-surface border border-bg-border rounded-lg overflow-hidden">
+          <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl overflow-hidden">
             <TicketTable tickets={tickets} />
           </div>
         )}

@@ -99,19 +99,20 @@ export default function TicketView() {
         <PageHeader
           title={`Ticket #${ticket.id}`}
           description={formatDate(ticket.created_at)}
+          image="/images/permissions.jpg"
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
             {/* Message */}
-            <div className="bg-bg-surface border border-bg-border rounded-lg p-6">
+            <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl p-6">
               <h3 className="text-sm font-medium text-text-secondary mb-3">Message</h3>
               <p className="text-text-primary leading-relaxed">{ticket.message}</p>
             </div>
 
             {/* AI Analysis */}
-            <div className="bg-bg-surface border border-bg-border rounded-lg p-6 space-y-4">
+            <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl p-6 space-y-4">
               <h3 className="text-sm font-medium text-text-secondary">AI Analysis</h3>
 
               <div>
@@ -136,7 +137,7 @@ export default function TicketView() {
 
             {/* Response */}
             {ticket.response && (
-              <div className="bg-bg-surface border border-accent-green border-opacity-20 rounded-lg p-6">
+              <div className="bg-bg-surface/70 backdrop-blur-xl border border-accent-green/30 rounded-xl p-6 shadow-[0_0_30px_-12px_var(--accent-green)]">
                 <h3 className="text-sm font-medium text-text-secondary mb-3">Response</h3>
                 <p className="text-text-primary leading-relaxed">{ticket.response}</p>
               </div>
@@ -144,7 +145,7 @@ export default function TicketView() {
 
             {/* Feedback */}
             {ticket.status === 'auto_resolved' && (
-              <div className="bg-bg-surface border border-bg-border rounded-lg p-6">
+              <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl p-6">
                 <h3 className="text-sm font-medium text-text-secondary mb-4">Feedback</h3>
                 {feedback ? (
                   <div className="space-y-3">
@@ -168,13 +169,13 @@ export default function TicketView() {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Status */}
-            <div className="bg-bg-surface border border-bg-border rounded-lg p-6">
+            <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl p-6">
               <h3 className="text-sm font-medium text-text-secondary mb-3">Status</h3>
               <StatusBadge status={ticket.status} />
             </div>
 
             {/* Metadata */}
-            <div className="bg-bg-surface border border-bg-border rounded-lg p-6 space-y-3">
+            <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl p-6 space-y-3">
               <h3 className="text-sm font-medium text-text-secondary mb-3">Details</h3>
 
               <div>
@@ -204,7 +205,7 @@ export default function TicketView() {
 
             {/* Actions */}
             {(user?.role === 'agent' || user?.role === 'admin') && ticket.status === 'escalated' && (
-              <div className="bg-bg-surface border border-bg-border rounded-lg p-6 space-y-3">
+              <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl p-6 space-y-3">
                 <h3 className="text-sm font-medium text-text-secondary mb-3">Actions</h3>
                 {!ticket.assigned_agent_id && (
                   <Button onClick={handleAssign} className="w-full">

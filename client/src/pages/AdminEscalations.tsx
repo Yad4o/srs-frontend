@@ -37,16 +37,17 @@ export default function AdminEscalations() {
         <PageHeader
           title="Escalations Queue"
           description="Assign new escalated tickets to available agents."
+          image="/images/permissions.jpg"
         />
 
         {isLoading ? (
           <div className="text-center py-12 text-text-secondary">Loading tickets...</div>
         ) : unassignedTickets.length === 0 ? (
-          <div className="text-center py-12 bg-bg-surface border border-bg-border rounded-lg">
+          <div className="text-center py-12 bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl">
             <p className="text-text-secondary">No unassigned escalated tickets found</p>
           </div>
         ) : (
-          <div className="bg-bg-surface border border-bg-border rounded-lg overflow-hidden">
+          <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl overflow-hidden">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="border-b border-bg-border bg-bg-raised text-sm text-text-secondary">

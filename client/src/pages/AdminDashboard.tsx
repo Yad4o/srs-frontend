@@ -47,6 +47,7 @@ export default function AdminDashboard() {
         <PageHeader
           title="Admin Dashboard"
           description="System performance and health metrics"
+          image="/images/shield.png"
         />
 
         {/* Unassigned Escalations Alert — links directly to the Escalations page */}
@@ -69,7 +70,7 @@ export default function AdminDashboard() {
         {/* Metrics Grid */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
           {/* Total Tickets */}
-          <div className="bg-bg-surface border border-bg-border rounded-lg p-6">
+          <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl p-6">
             <p className="text-text-muted text-sm mb-2">Total Tickets</p>
             <p className="font-mono text-3xl text-text-primary font-bold">{metrics.tickets.total}</p>
             <div className="mt-2 h-1 bg-bg-border rounded overflow-hidden">
@@ -78,7 +79,7 @@ export default function AdminDashboard() {
           </div>
 
           {/* Auto-Resolve Rate */}
-          <div className="bg-bg-surface border border-bg-border rounded-lg p-6">
+          <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl p-6">
             <p className="text-text-muted text-sm mb-2">Auto-Resolve Rate</p>
             <p className={`font-mono text-3xl font-bold ${
               metrics.tickets.auto_resolve_rate >= 0.7 ? 'text-accent-green' : 'text-accent-amber'
@@ -98,7 +99,7 @@ export default function AdminDashboard() {
           </div>
 
           {/* Escalation Rate */}
-          <div className="bg-bg-surface border border-bg-border rounded-lg p-6">
+          <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl p-6">
             <p className="text-text-muted text-sm mb-2">Escalation Rate</p>
             <p className={`font-mono text-3xl font-bold ${
               metrics.tickets.escalation_rate <= 0.3 ? 'text-accent-green' : 'text-accent-amber'
@@ -118,7 +119,7 @@ export default function AdminDashboard() {
           </div>
 
           {/* Avg Rating */}
-          <div className="bg-bg-surface border border-bg-border rounded-lg p-6">
+          <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl p-6">
             <p className="text-text-muted text-sm mb-2">Avg Rating</p>
             <p className="font-mono text-3xl text-text-primary font-bold">
               {metrics.feedback.average_rating.toFixed(1)} / 5
@@ -132,7 +133,7 @@ export default function AdminDashboard() {
         {/* Charts Row */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           {/* Status Breakdown */}
-          <div className="bg-bg-surface border border-bg-border rounded-lg p-6">
+          <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl p-6">
             <h3 className="text-sm font-medium text-text-secondary mb-4">Status Breakdown</h3>
             <ResponsiveContainer width="100%" height={250}>
               <PieChart>
@@ -170,7 +171,7 @@ export default function AdminDashboard() {
           </div>
 
           {/* Intent Breakdown */}
-          <div className="bg-bg-surface border border-bg-border rounded-lg p-6">
+          <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl p-6">
             <h3 className="text-sm font-medium text-text-secondary mb-4">Tickets by Intent</h3>
             <ResponsiveContainer width="100%" height={250}>
               <BarChart data={intentData} layout="vertical">
@@ -194,7 +195,7 @@ export default function AdminDashboard() {
         {/* Quality Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           {/* Low Quality Alert */}
-          <div className="bg-bg-surface border border-bg-border rounded-lg p-6">
+          <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl p-6">
             <h3 className="text-sm font-medium text-text-secondary mb-4">Quality Status</h3>
             {metrics.quality.low_quality_count > 0 ? (
               <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
@@ -213,7 +214,7 @@ export default function AdminDashboard() {
           </div>
 
           {/* Feedback Health */}
-          <div className="bg-bg-surface border border-bg-border rounded-lg p-6">
+          <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl p-6">
             <h3 className="text-sm font-medium text-text-secondary mb-4">Feedback Health</h3>
             <div className="space-y-3">
               <div>

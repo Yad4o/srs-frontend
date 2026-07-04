@@ -69,9 +69,10 @@ export default function SubmitTicket() {
           <PageHeader
             title="Processing Your Request"
             description="Our AI is analyzing your ticket..."
+            image="/images/encrypted.jpg"
           />
 
-          <div className="bg-bg-surface border border-bg-border rounded-lg p-8">
+          <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl p-8">
             <PipelineAnimation steps={pipelineSteps} />
           </div>
         </div>
@@ -86,11 +87,12 @@ export default function SubmitTicket() {
           <PageHeader
             title="Ticket Submitted"
             description={`Ticket #${result.id} has been created`}
+            image="/images/audit.jpg"
           />
 
           <div className="space-y-6">
             {/* Result Card */}
-            <div className="bg-bg-surface border border-bg-border rounded-lg p-6 space-y-4">
+            <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl p-6 space-y-4">
               <div className="flex items-start justify-between">
                 <div>
                   <h3 className="text-lg font-semibold text-text-primary mb-2">Your Message</h3>
@@ -126,7 +128,7 @@ export default function SubmitTicket() {
 
             {/* Feedback Form - only for auto-resolved */}
             {result.status === 'auto_resolved' && (
-              <div className="bg-bg-surface border border-accent-green border-opacity-30 rounded-lg p-6">
+              <div className="bg-bg-surface/70 backdrop-blur-xl border border-accent-green/30 rounded-xl p-6 shadow-[0_0_30px_-12px_var(--accent-green)]">
                 <h3 className="text-lg font-semibold text-text-primary mb-4">Help Us Improve</h3>
                 <FeedbackForm
                   ticketId={result.id}
@@ -167,10 +169,11 @@ export default function SubmitTicket() {
         <PageHeader
           title="Submit a Support Ticket"
           description="Describe your issue and our AI will help resolve it"
+          image="/images/isolated.jpg"
         />
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <div className="bg-bg-surface border border-bg-border rounded-lg p-6 space-y-4">
+          <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl p-6 space-y-4">
             <div>
               <label className="block text-sm font-medium text-text-primary mb-2">
                 Describe Your Issue
