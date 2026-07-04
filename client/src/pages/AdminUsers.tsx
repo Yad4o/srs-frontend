@@ -122,7 +122,7 @@ function ResetPasswordModal({
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 8 }}
         transition={{ duration: 0.18 }}
-        className="relative z-10 w-full max-w-md bg-bg-surface border border-bg-border rounded-xl p-6 shadow-2xl"
+        className="relative z-10 w-full max-w-md bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl p-6 shadow-2xl"
         onClick={e => e.stopPropagation()}
       >
         <div className="flex items-center gap-3 mb-5">
@@ -226,6 +226,7 @@ export default function AdminUsers() {
         <PageHeader
           title="User Management"
           description="View all accounts and reset passwords when needed"
+          image="/images/encrypted.jpg"
         />
 
         {/* Toolbar */}
@@ -238,12 +239,12 @@ export default function AdminUsers() {
               placeholder="Search by email…"
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 text-sm bg-bg-surface border border-bg-border rounded-lg text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
+              className="w-full pl-9 pr-4 py-2 text-sm bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
             />
           </div>
 
           {/* Role filter tabs */}
-          <div className="flex gap-1 bg-bg-surface border border-bg-border rounded-lg p-1">
+          <div className="flex gap-1 bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl p-1">
             {ROLE_FILTERS.map(f => (
               <button
                 key={f.value}
@@ -283,7 +284,7 @@ export default function AdminUsers() {
             Loading users…
           </div>
         ) : users.length === 0 ? (
-          <div className="text-center py-16 bg-bg-surface border border-bg-border rounded-xl">
+          <div className="text-center py-16 bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl">
             <User className="w-10 h-10 mx-auto mb-3 text-text-muted opacity-40" />
             <p className="text-text-secondary font-medium">No users found</p>
             {search && (
@@ -293,7 +294,7 @@ export default function AdminUsers() {
             )}
           </div>
         ) : (
-          <div className="bg-bg-surface border border-bg-border rounded-xl overflow-hidden">
+          <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl overflow-hidden">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-bg-border bg-bg-raised">

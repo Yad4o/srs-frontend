@@ -30,6 +30,7 @@ export default function MyTickets() {
         <PageHeader
           title="My Tickets"
           description="View and manage your support requests"
+          image="/images/bridge.png"
           action={
             <Link href="/tickets/new">
               <Button>

@@ -50,12 +50,13 @@ export default function Settings() {
         <PageHeader
           title="Settings"
           description="Manage your account, preferences, and system configuration."
+          image="/images/whale.png"
         />
 
         <div className="space-y-6">
           {/* ── Profile Section ── */}
           <section
-            className="bg-bg-surface border border-bg-border rounded-xl overflow-hidden"
+            className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl overflow-hidden"
             aria-labelledby="profile-heading"
           >
             <div className="flex items-center gap-3 px-6 py-4 border-b border-bg-border bg-bg-raised">
@@ -122,7 +123,7 @@ export default function Settings() {
 
           {/* ── Preferences Section ── */}
           <section
-            className="bg-bg-surface border border-bg-border rounded-xl overflow-hidden"
+            className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl overflow-hidden"
             aria-labelledby="preferences-heading"
           >
             <div className="flex items-center gap-3 px-6 py-4 border-b border-bg-border bg-bg-raised">
@@ -171,7 +172,7 @@ export default function Settings() {
           {/* ── Admin Section (admin only) ── */}
           {user.role === 'admin' && (
             <section
-              className="bg-bg-surface border border-bg-border rounded-xl overflow-hidden"
+              className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl overflow-hidden"
               aria-labelledby="admin-heading"
             >
               <div className="flex items-center gap-3 px-6 py-4 border-b border-bg-border bg-bg-raised">
