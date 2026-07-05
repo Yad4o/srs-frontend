@@ -8,7 +8,6 @@ import { useAuth } from '@/hooks/useAuth'
 import { AppShell } from '@/components/layout/AppShell'
 import { PageHeader } from '@/components/layout/PageHeader'
 import {
-  User,
   Shield,
   Bell,
   Lock,
@@ -56,17 +55,22 @@ export default function Settings() {
         <div className="space-y-6">
           {/* ── Profile Section ── */}
           <section
-            className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl overflow-hidden"
+            className="bg-bg-surface/60 backdrop-blur-xl border border-bg-border/70 rounded-2xl overflow-hidden"
             aria-labelledby="profile-heading"
           >
-            <div className="flex items-center gap-3 px-6 py-4 border-b border-bg-border bg-bg-raised">
-              <User className="w-5 h-5 text-accent-blue" />
-              <h2 id="profile-heading" className="font-semibold text-text-primary">
-                Profile
-              </h2>
+            <div className="flex items-center gap-4 px-6 py-5 border-b border-white/[0.08] bg-gradient-to-r from-white/[0.03] to-transparent">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-accent-blue to-fuchsia-500 flex items-center justify-center text-base font-display text-white shrink-0 shadow-[0_0_20px_-6px_var(--accent-blue)]">
+                {user.email?.charAt(0).toUpperCase() || 'U'}
+              </div>
+              <div>
+                <h2 id="profile-heading" className="font-display text-text-primary">
+                  Profile
+                </h2>
+                <p className="text-xs text-text-secondary mt-0.5">{user.email}</p>
+              </div>
             </div>
 
-            <div className="divide-y divide-bg-border">
+            <div className="divide-y divide-white/[0.05]">
               {/* Email */}
               <div className="flex items-center justify-between px-6 py-4">
                 <div>
@@ -123,10 +127,10 @@ export default function Settings() {
 
           {/* ── Preferences Section ── */}
           <section
-            className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl overflow-hidden"
+            className="bg-bg-surface/60 backdrop-blur-xl border border-bg-border/70 rounded-2xl overflow-hidden"
             aria-labelledby="preferences-heading"
           >
-            <div className="flex items-center gap-3 px-6 py-4 border-b border-bg-border bg-bg-raised">
+            <div className="flex items-center gap-3 px-6 py-4 border-b border-white/[0.08] bg-white/[0.02]">
               <Bell className="w-5 h-5 text-accent-amber" />
               <h2 id="preferences-heading" className="font-semibold text-text-primary">
                 Preferences
@@ -172,10 +176,10 @@ export default function Settings() {
           {/* ── Admin Section (admin only) ── */}
           {user.role === 'admin' && (
             <section
-              className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl overflow-hidden"
+              className="bg-bg-surface/60 backdrop-blur-xl border border-bg-border/70 rounded-2xl overflow-hidden"
               aria-labelledby="admin-heading"
             >
-              <div className="flex items-center gap-3 px-6 py-4 border-b border-bg-border bg-bg-raised">
+              <div className="flex items-center gap-3 px-6 py-4 border-b border-white/[0.08] bg-white/[0.02]">
                 <Wrench className="w-5 h-5 text-accent-red" />
                 <h2 id="admin-heading" className="font-semibold text-text-primary">
                   System Configuration

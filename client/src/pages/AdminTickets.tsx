@@ -39,24 +39,24 @@ export default function AdminTickets() {
         />
 
         {/* Filter Tabs */}
-        <div className="flex gap-2 mb-6 overflow-x-auto border-b border-bg-border pb-[2px]">
+        <div className="flex gap-2 mb-6 overflow-x-auto">
           {STATUSES.map((status) => {
             const isActive = activeStatus === status.value
             return (
               <button
                 key={status.value ?? 'all'}
                 onClick={() => { setActiveStatus(status.value); setPage(1) }}
-                className={`px-4 py-2 text-sm font-medium whitespace-nowrap transition-colors ${
+                className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap border transition-all duration-200 ${
                   isActive
-                    ? 'text-accent-blue border-b-2 border-accent-blue -mb-[3px]'
-                    : 'text-text-secondary hover:text-text-primary'
+                    ? 'bg-gradient-to-r from-accent-blue to-accent-blue/80 border-accent-blue/50 text-white shadow-[0_0_20px_-8px_var(--accent-blue)]'
+                    : 'bg-bg-surface/50 backdrop-blur-xl border-bg-border/70 text-text-secondary hover:bg-white/[0.05] hover:text-text-primary'
                 }`}
               >
                 {status.label}
                 {/* Only show count on the active tab — data.pagination.total
                     is the total for the current filter, not all tabs */}
                 {isActive && data && (
-                  <span className="ml-1.5 text-xs opacity-60">
+                  <span className="ml-1.5 text-xs opacity-70">
                     ({data.pagination.total})
                   </span>
                 )}
@@ -69,12 +69,12 @@ export default function AdminTickets() {
         {isLoading ? (
           <div className="text-center py-12 text-text-secondary">Loading tickets…</div>
         ) : !data || data.tickets.length === 0 ? (
-          <div className="text-center py-12 bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl">
+          <div className="text-center py-14 bg-bg-surface/50 backdrop-blur-xl border border-dashed border-bg-border/70 rounded-2xl">
             <p className="text-text-secondary">No tickets found</p>
           </div>
         ) : (
           <>
-            <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl overflow-hidden mb-6">
+            <div className="bg-bg-surface/60 backdrop-blur-xl border border-bg-border/70 rounded-2xl overflow-hidden mb-6">
               <TicketTable tickets={data.tickets} />
             </div>
 
@@ -88,14 +88,14 @@ export default function AdminTickets() {
                   <button
                     onClick={() => setPage(Math.max(1, page - 1))}
                     disabled={!data.pagination.has_prev}
-                    className="px-4 py-2 bg-bg-surface border border-bg-border rounded hover:bg-bg-raised disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    className="px-4 py-2 bg-bg-surface/60 backdrop-blur-xl border border-bg-border/70 rounded-lg hover:bg-white/[0.05] hover:border-accent-blue/40 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-bg-surface/60 disabled:hover:border-bg-border/70 transition-all"
                   >
                     Previous
                   </button>
                   <button
                     onClick={() => setPage(page + 1)}
                     disabled={!data.pagination.has_next}
-                    className="px-4 py-2 bg-bg-surface border border-bg-border rounded hover:bg-bg-raised disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    className="px-4 py-2 bg-bg-surface/60 backdrop-blur-xl border border-bg-border/70 rounded-lg hover:bg-white/[0.05] hover:border-accent-blue/40 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-bg-surface/60 disabled:hover:border-bg-border/70 transition-all"
                   >
                     Next
                   </button>

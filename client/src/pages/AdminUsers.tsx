@@ -122,7 +122,7 @@ function ResetPasswordModal({
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 8 }}
         transition={{ duration: 0.18 }}
-        className="relative z-10 w-full max-w-md bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl p-6 shadow-2xl"
+        className="relative z-10 w-full max-w-md bg-bg-surface/60 backdrop-blur-xl border border-bg-border/70 rounded-2xl p-6 shadow-2xl"
         onClick={e => e.stopPropagation()}
       >
         <div className="flex items-center gap-3 mb-5">
@@ -239,12 +239,12 @@ export default function AdminUsers() {
               placeholder="Search by email…"
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 text-sm bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
+              className="w-full pl-9 pr-4 py-2 text-sm bg-bg-surface/60 backdrop-blur-xl border border-bg-border/70 rounded-2xl text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
             />
           </div>
 
           {/* Role filter tabs */}
-          <div className="flex gap-1 bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl p-1">
+          <div className="flex gap-1 bg-bg-surface/60 backdrop-blur-xl border border-bg-border/70 rounded-2xl p-1">
             {ROLE_FILTERS.map(f => (
               <button
                 key={f.value}
@@ -264,7 +264,7 @@ export default function AdminUsers() {
           <button
             onClick={fetchUsers}
             disabled={loading}
-            className="p-2 border border-bg-border rounded-lg text-text-secondary hover:text-text-primary hover:bg-bg-raised transition-colors disabled:opacity-50"
+            className="p-2 bg-bg-surface/60 backdrop-blur-xl border border-bg-border/70 rounded-lg text-text-secondary hover:text-text-primary hover:border-accent-blue/40 hover:bg-white/[0.05] transition-all disabled:opacity-50"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
           </button>
@@ -284,7 +284,7 @@ export default function AdminUsers() {
             Loading users…
           </div>
         ) : users.length === 0 ? (
-          <div className="text-center py-16 bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl">
+          <div className="text-center py-16 bg-bg-surface/60 backdrop-blur-xl border border-bg-border/70 rounded-2xl">
             <User className="w-10 h-10 mx-auto mb-3 text-text-muted opacity-40" />
             <p className="text-text-secondary font-medium">No users found</p>
             {search && (
@@ -294,24 +294,29 @@ export default function AdminUsers() {
             )}
           </div>
         ) : (
-          <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl overflow-hidden">
+          <div className="bg-bg-surface/60 backdrop-blur-xl border border-bg-border/70 rounded-2xl overflow-hidden">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-bg-border bg-bg-raised">
-                  <th className="px-5 py-3 text-left text-xs font-medium text-text-secondary">ID</th>
-                  <th className="px-5 py-3 text-left text-xs font-medium text-text-secondary">Email</th>
-                  <th className="px-5 py-3 text-left text-xs font-medium text-text-secondary">Role</th>
-                  <th className="px-5 py-3 text-left text-xs font-medium text-text-secondary">Status</th>
-                  <th className="px-5 py-3 text-left text-xs font-medium text-text-secondary">Joined</th>
-                  <th className="px-5 py-3 text-right text-xs font-medium text-text-secondary">Actions</th>
+                <tr className="border-b border-white/[0.08] bg-white/[0.02]">
+                  <th className="px-5 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wide">ID</th>
+                  <th className="px-5 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wide">Email</th>
+                  <th className="px-5 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wide">Role</th>
+                  <th className="px-5 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wide">Status</th>
+                  <th className="px-5 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wide">Joined</th>
+                  <th className="px-5 py-3 text-right text-xs font-medium text-text-secondary uppercase tracking-wide">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-bg-border">
+              <tbody className="divide-y divide-white/[0.05]">
                 {users.map(user => (
-                  <tr key={user.id} className="hover:bg-bg-raised/50 transition-colors">
+                  <tr key={user.id} className="hover:bg-white/[0.03] transition-colors duration-150">
                     <td className="px-5 py-3.5 font-mono text-xs text-text-muted">#{user.id}</td>
                     <td className="px-5 py-3.5">
-                      <span className="text-text-primary font-medium">{user.email}</span>
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-7 h-7 rounded-full bg-gradient-to-br from-accent-blue to-fuchsia-500 flex items-center justify-center text-[11px] font-display text-white shrink-0">
+                          {user.email?.charAt(0).toUpperCase() || '?'}
+                        </div>
+                        <span className="text-text-primary font-medium">{user.email}</span>
+                      </div>
                     </td>
                     <td className="px-5 py-3.5">
                       <RoleBadge role={user.role} />

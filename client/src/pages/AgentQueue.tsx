@@ -62,15 +62,15 @@ export default function AgentQueue() {
         />
 
         {/* Tabs */}
-        <div className="flex gap-2 mb-6 border-b border-bg-border pb-[2px]">
+        <div className="flex gap-2 mb-6">
           {TABS.map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-4 py-2 font-medium text-sm transition-colors ${
+              className={`px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200 ${
                 activeTab === tab
-                  ? 'text-accent-blue border-b-2 border-accent-blue -mb-[3px]'
-                  : 'text-text-secondary hover:text-text-primary'
+                  ? 'bg-gradient-to-r from-accent-blue to-accent-blue/80 border-accent-blue/50 text-white shadow-[0_0_20px_-8px_var(--accent-blue)]'
+                  : 'bg-bg-surface/50 backdrop-blur-xl border-bg-border/70 text-text-secondary hover:bg-white/[0.05] hover:text-text-primary'
               }`}
             >
               {TAB_LABELS[tab]}
@@ -83,23 +83,27 @@ export default function AgentQueue() {
           <div className="text-center py-12 text-text-secondary">Loading tickets…</div>
         ) : isError ? (
           /* Fix 13: clear error state instead of misleading empty-state copy */
-          <div className="text-center py-12 bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl">
-            <AlertCircle className="w-12 h-12 text-accent-red mx-auto mb-4 opacity-60" />
+          <div className="text-center py-14 bg-bg-surface/50 backdrop-blur-xl border border-bg-border/70 rounded-2xl">
+            <div className="w-14 h-14 rounded-full bg-accent-red/10 flex items-center justify-center mx-auto mb-4">
+              <AlertCircle className="w-6 h-6 text-accent-red" />
+            </div>
             <p className="text-text-secondary mb-2 font-medium">Failed to load assignments</p>
             <p className="text-text-muted text-sm">Check your connection and try refreshing the page.</p>
           </div>
         ) : !tickets || tickets.length === 0 ? (
-          <div className="text-center py-12 bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl">
-            {activeTab === 'resolved' ? (
-              <CheckCircle className="w-12 h-12 text-accent-green mx-auto mb-4 opacity-50" />
-            ) : (
-              <Inbox className="w-12 h-12 text-text-muted mx-auto mb-4 opacity-50" />
-            )}
+          <div className="text-center py-14 bg-bg-surface/50 backdrop-blur-xl border border-dashed border-bg-border/70 rounded-2xl">
+            <div className={`w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 ${activeTab === 'resolved' ? 'bg-accent-green/10' : 'bg-white/[0.04]'}`}>
+              {activeTab === 'resolved' ? (
+                <CheckCircle className="w-6 h-6 text-accent-green" />
+              ) : (
+                <Inbox className="w-6 h-6 text-text-muted" />
+              )}
+            </div>
             <p className="text-text-secondary mb-2 font-medium">{emptyMessages[activeTab].title}</p>
             <p className="text-text-muted text-sm">{emptyMessages[activeTab].subtitle}</p>
           </div>
         ) : (
-          <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl overflow-hidden">
+          <div className="bg-bg-surface/60 backdrop-blur-xl border border-bg-border/70 rounded-2xl overflow-hidden">
             <TicketTable tickets={tickets} />
           </div>
         )}

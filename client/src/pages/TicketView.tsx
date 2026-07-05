@@ -17,7 +17,7 @@ import { FeedbackForm } from '@/components/tickets/FeedbackForm'
 import { StarRating } from '@/components/ui/StarRating'
 import { formatDate, formatRelativeTime, formatQualityScore } from '@/utils/formatters'
 import { toast } from 'sonner'
-import { ArrowLeft, Clock } from 'lucide-react'
+import { ArrowLeft, Clock, CheckCircle2, XCircle } from 'lucide-react'
 
 export default function TicketView() {
   const { id } = useParams<{ id: string }>()
@@ -34,7 +34,10 @@ export default function TicketView() {
   if (isLoading) {
     return (
       <AppShell>
-        <div className="p-8">Loading...</div>
+        <div className="p-8 flex items-center gap-3 text-text-secondary">
+          <div className="w-4 h-4 rounded-full border-2 border-accent-blue border-t-transparent animate-spin" />
+          Loading...
+        </div>
       </AppShell>
     )
   }
@@ -106,13 +109,13 @@ export default function TicketView() {
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
             {/* Message */}
-            <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl p-6">
+            <div className="bg-bg-surface/60 backdrop-blur-xl border border-bg-border/70 rounded-2xl p-6">
               <h3 className="text-sm font-medium text-text-secondary mb-3">Message</h3>
               <p className="text-text-primary leading-relaxed">{ticket.message}</p>
             </div>
 
             {/* AI Analysis */}
-            <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl p-6 space-y-4">
+            <div className="bg-bg-surface/60 backdrop-blur-xl border border-bg-border/70 rounded-2xl p-6 space-y-4">
               <h3 className="text-sm font-medium text-text-secondary">AI Analysis</h3>
 
               <div>
@@ -145,7 +148,7 @@ export default function TicketView() {
 
             {/* Feedback */}
             {ticket.status === 'auto_resolved' && (
-              <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl p-6">
+              <div className="bg-bg-surface/60 backdrop-blur-xl border border-bg-border/70 rounded-2xl p-6">
                 <h3 className="text-sm font-medium text-text-secondary mb-4">Feedback</h3>
                 {feedback ? (
                   <div className="space-y-3">
@@ -154,8 +157,13 @@ export default function TicketView() {
                       <StarRating value={feedback.rating} readOnly />
                     </div>
                     <div>
-                      <p className="text-xs text-text-muted">
-                        {feedback.resolved ? '✓ This resolved your issue' : '✗ This did not resolve your issue'}
+                      <p className="text-xs text-text-muted flex items-center gap-1.5">
+                        {feedback.resolved ? (
+                          <CheckCircle2 className="w-3.5 h-3.5 text-accent-green" />
+                        ) : (
+                          <XCircle className="w-3.5 h-3.5 text-accent-red" />
+                        )}
+                        {feedback.resolved ? 'This resolved your issue' : 'This did not resolve your issue'}
                       </p>
                     </div>
                   </div>
@@ -169,13 +177,13 @@ export default function TicketView() {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Status */}
-            <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl p-6">
+            <div className="bg-bg-surface/60 backdrop-blur-xl border border-bg-border/70 rounded-2xl p-6">
               <h3 className="text-sm font-medium text-text-secondary mb-3">Status</h3>
               <StatusBadge status={ticket.status} />
             </div>
 
             {/* Metadata */}
-            <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl p-6 space-y-3">
+            <div className="bg-bg-surface/60 backdrop-blur-xl border border-bg-border/70 rounded-2xl p-6 space-y-3">
               <h3 className="text-sm font-medium text-text-secondary mb-3">Details</h3>
 
               <div>
@@ -205,7 +213,7 @@ export default function TicketView() {
 
             {/* Actions */}
             {(user?.role === 'agent' || user?.role === 'admin') && ticket.status === 'escalated' && (
-              <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl p-6 space-y-3">
+              <div className="bg-bg-surface/60 backdrop-blur-xl border border-bg-border/70 rounded-2xl p-6 space-y-3">
                 <h3 className="text-sm font-medium text-text-secondary mb-3">Actions</h3>
                 {!ticket.assigned_agent_id && (
                   <Button onClick={handleAssign} className="w-full">

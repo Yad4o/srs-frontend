@@ -72,7 +72,7 @@ export default function SubmitTicket() {
             image="/images/encrypted.jpg"
           />
 
-          <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl p-8">
+          <div className="bg-bg-surface/60 backdrop-blur-xl border border-bg-border/70 rounded-2xl p-8">
             <PipelineAnimation steps={pipelineSteps} />
           </div>
         </div>
@@ -92,7 +92,7 @@ export default function SubmitTicket() {
 
           <div className="space-y-6">
             {/* Result Card */}
-            <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl p-6 space-y-4">
+            <div className="bg-bg-surface/60 backdrop-blur-xl border border-bg-border/70 rounded-2xl p-6 space-y-4">
               <div className="flex items-start justify-between">
                 <div>
                   <h3 className="text-lg font-semibold text-text-primary mb-2">Your Message</h3>
@@ -141,7 +141,7 @@ export default function SubmitTicket() {
 
             {/* Escalation Message */}
             {result.status === 'escalated' && (
-              <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-4">
+              <div className="bg-amber-500/10 backdrop-blur-xl border border-amber-500/30 rounded-2xl p-4">
                 <p className="text-amber-300 text-sm">
                   This ticket has been escalated to our support team. An agent will review it and reach out to resolve your issue.
                 </p>
@@ -173,7 +173,7 @@ export default function SubmitTicket() {
         />
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <div className="bg-bg-surface/70 backdrop-blur-xl border border-bg-border/70 rounded-xl p-6 space-y-4">
+          <div className="bg-bg-surface/60 backdrop-blur-xl border border-bg-border/70 rounded-2xl p-6 space-y-4">
             <div>
               <label className="block text-sm font-medium text-text-primary mb-2">
                 Describe Your Issue
@@ -182,7 +182,7 @@ export default function SubmitTicket() {
                 {...register('message')}
                 placeholder="Tell us what's happening... (minimum 10 characters)"
                 rows={8}
-                className="w-full px-4 py-3 bg-bg-raised border border-bg-border rounded text-text-primary placeholder-text-muted focus:outline-none focus:border-accent-blue focus:ring-1 focus:ring-accent-blue"
+                className="w-full px-4 py-3 bg-black/20 border border-bg-border/70 rounded-xl text-text-primary placeholder-text-muted focus:outline-none focus:border-accent-blue focus:ring-1 focus:ring-accent-blue transition-colors"
               />
               <div className="flex justify-between items-center mt-2">
                 <div>

@@ -25,20 +25,20 @@ export function TicketTable({ tickets, className }: TicketTableProps) {
     <div className={cn('overflow-x-auto', className)}>
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b border-bg-border">
-            <th className="px-4 py-3 text-left text-text-secondary font-medium">ID</th>
-            <th className="px-4 py-3 text-left text-text-secondary font-medium">Message</th>
-            <th className="px-4 py-3 text-left text-text-secondary font-medium">Intent</th>
-            <th className="px-4 py-3 text-left text-text-secondary font-medium">Confidence</th>
-            <th className="px-4 py-3 text-left text-text-secondary font-medium">Status</th>
-            <th className="px-4 py-3 text-left text-text-secondary font-medium">Submitted</th>
+          <tr className="border-b border-white/[0.08] bg-white/[0.02]">
+            <th className="px-4 py-3.5 text-left text-text-secondary font-medium text-xs uppercase tracking-wide">ID</th>
+            <th className="px-4 py-3.5 text-left text-text-secondary font-medium text-xs uppercase tracking-wide">Message</th>
+            <th className="px-4 py-3.5 text-left text-text-secondary font-medium text-xs uppercase tracking-wide">Intent</th>
+            <th className="px-4 py-3.5 text-left text-text-secondary font-medium text-xs uppercase tracking-wide">Confidence</th>
+            <th className="px-4 py-3.5 text-left text-text-secondary font-medium text-xs uppercase tracking-wide">Status</th>
+            <th className="px-4 py-3.5 text-left text-text-secondary font-medium text-xs uppercase tracking-wide">Submitted</th>
           </tr>
         </thead>
         <tbody>
           {tickets.map((ticket) => (
-            <tr key={ticket.id} className="border-b border-bg-border hover:bg-bg-raised transition-colors">
-              <td className="px-4 py-3 font-mono text-text-muted">#{ticket.id}</td>
-              <td className="px-4 py-3 text-text-primary max-w-xs truncate">
+            <tr key={ticket.id} className="border-b border-white/[0.05] hover:bg-white/[0.03] transition-colors duration-150">
+              <td className="px-4 py-3.5 font-mono text-text-muted">#{ticket.id}</td>
+              <td className="px-4 py-3.5 text-text-primary max-w-xs truncate">
                 {/* Entire cell is the navigation target — no nested <a> */}
                 <Link
                   href={`/tickets/${ticket.id}`}
@@ -47,16 +47,16 @@ export function TicketTable({ tickets, className }: TicketTableProps) {
                   {ticket.message}
                 </Link>
               </td>
-              <td className="px-4 py-3">
+              <td className="px-4 py-3.5">
                 <IntentBadge intent={ticket.intent} />
               </td>
-              <td className="px-4 py-3 max-w-xs">
+              <td className="px-4 py-3.5 max-w-xs">
                 <ConfidenceBar value={ticket.confidence} showLabel={false} size="sm" />
               </td>
-              <td className="px-4 py-3">
+              <td className="px-4 py-3.5">
                 <StatusBadge status={ticket.status} />
               </td>
-              <td className="px-4 py-3 text-text-secondary">{formatRelativeTime(ticket.created_at)}</td>
+              <td className="px-4 py-3.5 text-text-secondary">{formatRelativeTime(ticket.created_at)}</td>
             </tr>
           ))}
         </tbody>

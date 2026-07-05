@@ -47,10 +47,10 @@ export default function MyTickets() {
             <button
               key={status.value || 'all'}
               onClick={() => setActiveStatus(status.value)}
-              className={`px-4 py-2 rounded-lg whitespace-nowrap transition-colors ${
+              className={`px-4 py-2 rounded-full whitespace-nowrap transition-all duration-200 text-sm font-medium border ${
                 activeStatus === status.value
-                  ? 'bg-accent-blue text-bg-base'
-                  : 'bg-bg-surface text-text-secondary hover:bg-bg-raised'
+                  ? 'bg-gradient-to-r from-accent-blue to-accent-blue/80 border-accent-blue/50 text-white shadow-[0_0_20px_-8px_var(--accent-blue)]'
+                  : 'bg-bg-surface/50 backdrop-blur-xl border-bg-border/70 text-text-secondary hover:bg-white/[0.05] hover:text-text-primary'
               }`}
             >
               {status.label}
@@ -68,7 +68,10 @@ export default function MyTickets() {
           {isLoading ? (
             <div className="text-center py-12 text-text-secondary">Loading tickets...</div>
           ) : !tickets || tickets.length === 0 ? (
-            <div className="text-center py-12">
+            <div className="text-center py-16 rounded-2xl border border-dashed border-bg-border/70 bg-bg-surface/30 backdrop-blur-xl">
+              <div className="w-14 h-14 rounded-full bg-accent-blue/10 flex items-center justify-center mx-auto mb-4">
+                <Plus className="w-6 h-6 text-accent-blue" />
+              </div>
               <p className="text-text-secondary mb-4">No tickets yet</p>
               <Link href="/tickets/new">
                 <Button>Submit Your First Ticket</Button>
