@@ -24,10 +24,11 @@ export function TicketCard({ ticket, className }: TicketCardProps) {
     <Link
       href={`/tickets/${ticket.id}`}
       className={cn(
-        'block p-4 bg-bg-surface border border-bg-border rounded-lg hover:border-accent-blue hover:bg-bg-raised transition-all group',
+        'group relative block p-4 pl-5 bg-bg-surface/60 backdrop-blur-xl border border-bg-border/70 rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:border-accent-blue/50 hover:shadow-[0_0_32px_-14px_var(--accent-blue)]',
         className
       )}
     >
+      <span className="absolute left-0 top-0 bottom-0 w-[3px] bg-gradient-to-b from-accent-blue/0 via-accent-blue/60 to-accent-blue/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1 min-w-0">
           {/* Header: ID and Status */}

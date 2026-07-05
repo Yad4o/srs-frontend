@@ -14,18 +14,21 @@ interface AppShellProps {
 
 export function AppShell({ children, className }: AppShellProps) {
   return (
-    <div className="relative flex h-screen bg-bg-base text-text-primary overflow-hidden">
-      {/* Ambient background — same cinematic language as the landing/auth pages */}
+    <div className="relative flex h-screen bg-black text-text-primary overflow-hidden">
+      {/* Real cinematic video background — same source as the landing hero, heavily dimmed/blurred so dense data stays fully legible */}
       <div className="pointer-events-none fixed inset-0 z-0">
-        <img
-          src="/images/bridge.png"
-          alt=""
-          className="absolute right-0 top-0 h-full w-[40%] object-cover opacity-[0.08]"
-          style={{ maskImage: 'linear-gradient(to left, black 0%, transparent 75%)', WebkitMaskImage: 'linear-gradient(to left, black 0%, transparent 75%)' }}
-        />
-        <div className="absolute -top-24 -left-24 w-[32rem] h-[32rem] rounded-full bg-accent-blue blur-[160px] opacity-[0.09]" />
-        <div className="absolute top-1/3 right-0 w-[28rem] h-[28rem] rounded-full bg-fuchsia-500 blur-[160px] opacity-[0.07]" />
-        <div className="absolute bottom-0 left-1/3 w-[26rem] h-[26rem] rounded-full bg-accent-green blur-[150px] opacity-[0.05]" />
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          aria-hidden="true"
+          className="w-full h-full object-cover object-center opacity-[0.14] blur-[1px] scale-105"
+        >
+          <source src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/bg-hero-0BnFGdr81Ifnj3WbBZoNt1KE4D5DMT.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-bg-base/85" />
+        <div className="absolute inset-0 bg-gradient-to-br from-accent-blue/[0.05] via-transparent to-fuchsia-500/[0.05]" />
         {/* Faint grid, echoes the hero section */}
         <div className="absolute inset-0 opacity-[0.03]">
           {[...Array(6)].map((_, i) => (
