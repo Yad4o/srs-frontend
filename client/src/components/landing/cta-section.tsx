@@ -62,28 +62,28 @@ export function CtaSection() {
                 </p>
 
                 <div className="flex flex-col sm:flex-row items-start gap-4">
-                  <Link href="/register">
+                  <Link href="/try">
                     <Button
                       size="lg"
                       className="bg-foreground hover:bg-foreground/90 text-background px-8 h-14 text-base rounded-full group"
                     >
-                      Get started
+                      Try it now — no signup
                       <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
                     </Button>
                   </Link>
-                  <Link href="/login">
+                  <Link href="/register">
                     <Button
                       size="lg"
                       variant="outline"
                       className="h-14 px-8 text-base rounded-full border-foreground/20 hover:bg-foreground/5"
                     >
-                      Sign in
+                      Get started
                     </Button>
                   </Link>
                 </div>
 
                 <p className="text-sm text-muted-foreground mt-8 font-mono">
-                  MIT licensed &middot; free and open source
+                  Free, no-login API endpoint &middot; MIT licensed &middot; free and open source
                 </p>
               </div>
 
