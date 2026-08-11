@@ -66,6 +66,9 @@ export function Navigation() {
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-4">
+            <Link href="/try" className={`transition-all duration-500 ${isScrolled ? "text-xs text-foreground/70 hover:text-foreground" : "text-sm text-white/70 hover:text-white"}`}>
+              Try it free
+            </Link>
             <Link href="/login" className={`transition-all duration-500 ${isScrolled ? "text-xs text-foreground/70 hover:text-foreground" : "text-sm text-white/70 hover:text-white"}`}>
               Sign in
             </Link>
@@ -125,30 +128,41 @@ export function Navigation() {
           </div>
           
           {/* Bottom CTAs */}
-          <div className={`flex gap-4 pt-8 border-t border-foreground/10 transition-all duration-500 ${
+          <div className={`flex flex-col gap-3 pt-8 border-t border-foreground/10 transition-all duration-500 ${
             isMobileMenuOpen 
               ? "opacity-100 translate-y-0" 
               : "opacity-0 translate-y-4"
           }`}
           style={{ transitionDelay: isMobileMenuOpen ? "300ms" : "0ms" }}
           >
-            <Link href="/login" className="flex-1">
-              <Button 
-                variant="outline" 
-                className="w-full rounded-full h-14 text-base"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Sign in
-              </Button>
-            </Link>
-            <Link href="/register" className="flex-1">
-              <Button 
+            <Link href="/try">
+              <Button
                 className="w-full bg-foreground text-background rounded-full h-14 text-base"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Get access
+                Try it free — no signup
               </Button>
             </Link>
+            <div className="flex gap-4">
+              <Link href="/login" className="flex-1">
+                <Button 
+                  variant="outline" 
+                  className="w-full rounded-full h-14 text-base"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Sign in
+                </Button>
+              </Link>
+              <Link href="/register" className="flex-1">
+                <Button 
+                  variant="outline"
+                  className="w-full rounded-full h-14 text-base"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Get access
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>

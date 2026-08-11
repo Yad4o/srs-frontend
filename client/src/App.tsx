@@ -13,6 +13,7 @@ import client from '@/api/client'
 
 // Pages
 import Landing from '@/pages/Landing'
+import TryIt from '@/pages/TryIt'
 import Login from '@/pages/Login'
 import Register from '@/pages/Register'
 import ForgotPassword from '@/pages/ForgotPassword'
@@ -50,6 +51,7 @@ function Router() {
     <Switch>
       {/* Public Routes */}
       <Route path="/" component={Landing} />
+      <Route path="/try" component={TryIt} />
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
       <Route path="/forgot-password" component={ForgotPassword} />

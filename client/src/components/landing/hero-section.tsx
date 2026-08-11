@@ -1,5 +1,8 @@
 
 import { useEffect, useState, useRef } from "react";
+import { Link } from "wouter";
+import { Button } from "@/components/ui/button";
+import { Sparkles, ArrowRight } from "lucide-react";
 
 const words = ["classify", "resolve", "escalate", "respond"];
 
@@ -192,6 +195,24 @@ export function HeroSection() {
               </span>
             </span>
           </h1>
+        </div>
+
+        {/* Primary CTA — the free, no-login endpoint, front and center */}
+        <div
+          className={`transition-all duration-1000 delay-200 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          <Link href="/try">
+            <Button
+              size="lg"
+              className="bg-white hover:bg-white/90 text-black px-8 h-14 text-base rounded-full group"
+            >
+              <Sparkles className="w-4 h-4" />
+              Try it now — no signup
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            </Button>
+          </Link>
         </div>
         </div>
       </div>
