@@ -2,7 +2,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Sparkles, ArrowRight } from "lucide-react";
+import { ArrowRight, Zap } from "lucide-react";
 
 const words = ["classify", "resolve", "escalate", "respond"];
 
@@ -208,11 +208,14 @@ export function HeroSection() {
               size="lg"
               className="bg-white hover:bg-white/90 text-black px-8 h-14 text-base rounded-full group"
             >
-              <Sparkles className="w-4 h-4" />
+              <Zap className="w-4 h-4" />
               Try it now — no signup
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Button>
           </Link>
+          <p className="mt-3 text-xs font-mono text-white/50">
+            or skip the page: <code className="text-white/70">POST /resolve</code> — no key required
+          </p>
         </div>
         </div>
       </div>
